@@ -21,6 +21,8 @@
             color: white; padding: 50px 20px; text-align: center;
             border-bottom: 5px solid #ffcc00; box-shadow: 0 5px 20px rgba(0,0,0,0.4);
             display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;
+            cursor: pointer;
+            user-select: none; -webkit-user-select: none;
         }
         .header-logo {
             width: 90px; height: 90px; border-radius: 50%; border: 3px solid #ffcc00;
@@ -72,22 +74,26 @@
         .action-btn { background: rgba(255, 255, 255, 0.8); border: 1px solid #cbd5e1; color: #0d233a; padding: 6px 12px; font-size: 13px; margin-right: 5px; margin-top: 10px; cursor: pointer; border-radius: 4px; width: auto; display: inline-block; }
         .delete-btn { background: linear-gradient(135deg, #d9534f 0%, #c9302c 100%); color: white; border: none; padding: 4px 10px; font-size: 13px; cursor: pointer; border-radius: 4px; position: absolute; top: 15px; right: 15px; width: auto; }
         
-        /* 🔒 शुरुआत में एडमिन पैनल को पूरी तरह छुपाने के लिए */
         .admin-zone { 
             background: linear-gradient(135deg, rgba(255, 245, 245, 0.6) 0%, rgba(255, 235, 235, 0.6) 100%); 
             border: 2px dashed #d9534f; 
             border-left: 6px solid #d9534f; 
             display: none; 
         }
+        .hide-panel-btn {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
 
-<header id="mainHeader">
+<!-- हेडर पर 3 बार टच करने से एडमिन पैनल का पासवर्ड बॉक्स खुलेगा -->
+<header id="mainHeader" onclick="handleHeaderClick()">
     <img id="partyLogo" class="header-logo" src="https://cdn-icons-png.flaticon.com/512/505/505963.png" alt="CJP Logo">
     <div class="header-text">
         <h1>कॉकरोच जनता पार्टी (CJP) - जिंदाबाद!</h1>
-        <p>आधिकारिक जिला कार्यालय: नरसिंहपुर (म.प्र.)</p>
+        <p>आधिकारिक जिला कार्यालय: नरसिंहपुर (म.प्र.) [प्राइवेट]</p>
     </div>
 </header>
 
@@ -111,8 +117,8 @@
         <label><b>मोबाइल नंबर (+91 के साथ):</b></label>
         <input type="tel" id="memberPhone" placeholder="उदा. +9198XXXXXXXX">
         
-        <!-- 🤖 गूगल कैप्चा कंटेनर -->
-        <div id="recaptcha-container"></div>
+        <!-- 🤖 गुप्त अदृश्य कैप्चा डिब्बा (यह बैकग्राउंड में शांत रहेगा और काम नहीं रोकेगा) -->
+        <div id="recaptcha-container" style="display: none;"></div>
 
         <!-- 🔐 वेरिफिकेशन के लिए OTP सेक्शन -->
         <div class="otp-container" id="otpSection">
@@ -149,10 +155,10 @@
         </div>
     </div>
 
-    <!-- 🔐 एडमिन जोन (कंट्रोल पैनल) -> अब यह id="adminPanel" के साथ डिफ़ॉल्ट रूप से छुपा रहेगा -->
+    <!-- 🔐 एडमिन जोन (कंट्रोल पैनल) -->
     <div class="section admin-zone" id="adminPanel">
-        <h3 style="color: #d9534f;">🔐 बड़े भैया का स्पेशल控制 (Admin Panel)</h3>
-        <p style="font-size: 13px; color: #555;">[नोट: यह पैनल केवल 1809 टाइप करने पर ही खुलता है, छुपाने के लिए H दबाएं]</p>
+        <h3 style="color: #d9534f;">🔐 बड़े भैया का स्पेशल कंट्रोल (Admin Panel)</h3>
+        <p style="font-size: 13px; color: #555;">[नोट: काम होने के बाद नीचे दिए गए बटन से इसे वापस छुपा दें]</p>
         
         <label><b>🪲 हेडर की मुख्य फोटो/DP (चुनाव चिन्ह) बदलें:</b></label>
         <div class="upload-btn-wrapper">
@@ -176,6 +182,8 @@
                 <span>संदीप पटेल (सिहोरा)</span> <button class="delete-btn" style="top:2px; right:2px;" onclick="removeElement('mem-2', 'admin-mem-2', true)">हटाएं ❌</button>
             </div>
         </div>
+
+        <button class="hide-panel-btn" onclick="hideAdminPanel()">पैनल छुपाएं 🔒</button>
     </div>
 </div>
 
@@ -198,43 +206,43 @@
     let memCounter = 2;
     let confirmationResult = null; 
 
-    // 🔑 सीक्रेट पासकोड डिटेक्टर वेरिएबल
-    let inputBuffer = "";
+    let clickCount = 0;
+    let clickTimeout;
 
+    // 📱 हेडर पर 3 बार टच करने से पासकोड पूछने वाला फंक्शन
+    function handleHeaderClick() {
+        clickCount++;
+        clearTimeout(clickTimeout);
+        clickTimeout = setTimeout(() => { clickCount = 0; }, 400);
+
+        if (clickCount === 3) {
+            clickCount = 0; 
+            let password = prompt("🔐 बड़े भैया, कृपया अपना गुप्त पासकोड दर्ज करें:");
+            
+            if (password === "1809") {
+                document.getElementById("adminPanel").style.display = "block";
+                document.getElementById("adminPanel").scrollIntoView({ behavior: 'smooth' });
+                alert("प्रणाम भैया! सीक्रेट पैनल खुल गया है।");
+            } else if (password !== null) {
+                alert("गलत पासकोड! आप बड़े भैया नहीं हैं।");
+            }
+        }
+    }
+
+    function hideAdminPanel() {
+        document.getElementById("adminPanel").style.display = "none";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ⚡ कैप्चा की एरर को बाईपास करने के लिए विंडो लोड सेटअप
     window.onload = function() {
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-            'size': 'invisible'
-        });
-
-        // 🥷 कीबोर्ड बटन दबाने की जासूसी करने वाला कोड
-        document.addEventListener('keydown', function(event) {
-            // अगर भैया 'h' या 'H' दबाते हैं तो पैनल तुरंत छुप जाएगा
-            if (event.key.toLowerCase() === 'h') {
-                document.getElementById("adminPanel").style.display = "none";
-                inputBuffer = "";
-                return;
-            }
-
-            // केवल नंबरों को बफ़र में जोड़ें
-            if (/[0-9]/.test(event.key)) {
-                inputBuffer += event.key;
-                
-                // केवल आखिरी 4 अंकों को ही याद रखना है
-                if (inputBuffer.length > 4) {
-                    inputBuffer = inputBuffer.slice(-4);
-                }
-
-                // अगर जादुई नंबर '1809' मैच हो गया, तो पैनल खोल दो!
-                if (inputBuffer === "1809") {
-                    document.getElementById("adminPanel").style.display = "block";
-                    document.getElementById("adminPanel").scrollIntoView({ behavior: 'smooth' });
-                    alert("प्रणाम भैया! आपका सीक्रेट कंट्रोल पैनल अनलॉक हो गया है।");
-                    inputBuffer = ""; // बफ़र रीसेट
-                }
-            }
+            'size': 'invisible',
+            'callback': (response) => { /* शांत रहें */ }
         });
     };
 
+    // ✉️ बिना किसी एरर के सीधा OTP भेजने वाला फंक्शन
     function sendOTP() {
         let name = document.getElementById("memberName").value.trim();
         let village = document.getElementById("memberVillage").value.trim();
@@ -250,6 +258,13 @@
             return;
         }
 
+        // कैप्चा को जबरन रीसेट करके तुरंत आगे बढ़ाने की ट्रिक
+        try {
+            window.recaptchaVerifier.render().then(function(widgetId) {
+                grecaptcha.reset(widgetId);
+            });
+        } catch(e) { console.log("कैप्चा रिफ्रेश किया गया"); }
+
         let appVerifier = window.recaptchaVerifier;
         
         auth.signInWithPhoneNumber(phone, appVerifier)
@@ -260,7 +275,7 @@
                 alert("सफलतापूर्वक असली OTP आपके मोबाइल पर भेज दिया गया है!");
             }).catch((error) => {
                 console.error(error);
-                alert("OTP भेजने में कोई दिक्कत आई! एरर: " + error.message);
+                alert("OTP भेजने में दिक्कत आई! कृपया जाँचें कि Firebase Console में Phone Auth चालू है और सही Domain एडेड है या नहीं। एरर: " + error.message);
             });
     }
 
