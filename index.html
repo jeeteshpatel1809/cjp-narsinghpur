@@ -14,11 +14,11 @@
             padding: 0; 
             background: #0d233a url('cjp-bg.jpg') no-repeat center center fixed !important; 
             background-size: cover !important; 
-            color: #111; 
+            color: #fff; 
         }
         
         header { 
-            background: linear-gradient(135deg, rgba(13, 35, 58, 0.8) 0%, rgba(6, 19, 36, 0.8) 100%); 
+            background: rgba(13, 35, 58, 0.5); 
             color: white; 
             padding: 40px 20px; 
             text-align: center; 
@@ -42,29 +42,29 @@
         
         .container { max-width: 750px; margin: 30px auto; padding: 10px; }
         
-        /* ✨ अपडेटेड: और ज्यादा पारदर्शी (Transparent) ग्लॉसी पैनल */
+        /* ✨ 50% और ज्यादा पारदर्शी (Transparent) ग्लॉसी पैनल */
         .counter-box, .section { 
-            background: rgba(255, 255, 255, 0.35); 
-            backdrop-filter: blur(8px) !important; 
-            -webkit-backdrop-filter: blur(8px) !important; 
+            background: rgba(255, 255, 255, 0.17); 
+            backdrop-filter: blur(10px) !important; 
+            -webkit-backdrop-filter: blur(10px) !important; 
             border-radius: 12px; 
-            border: 1px solid rgba(255, 255, 255, 0.4); 
+            border: 1px solid rgba(255, 255, 255, 0.3); 
             margin-bottom: 25px; 
             padding: 25px; 
-            color: #fff; /* टेक्स्ट को बेहतर दिखाने के लिए सफेद किया है */
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            color: #fff;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
         }
         
         .counter-number { color: #ffcc00; font-size: 30px; font-weight: 900; }
-        input[type="text"], input[type="tel"], textarea { width: 100%; padding: 12px; margin: 8px 0 18px 0; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; font-size: 16px; background: rgba(255, 255, 255, 0.8); }
+        input[type="text"], input[type="tel"], textarea { width: 100%; padding: 12px; margin: 8px 0 18px 0; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; font-size: 16px; background: rgba(0, 0, 0, 0.3); color: white; }
         textarea { resize: vertical; height: 100px; }
         
-        button { background: linear-gradient(135deg, #0d233a 0%, #1a3a5c 100%); color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; width: 100%; }
-        button:hover { background: linear-gradient(135deg, #1a3a5c 0%, #254f7c 100%); }
+        button { background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid white; padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; width: 100%; transition: 0.3s; }
+        button:hover { background: rgba(255, 255, 255, 0.4); }
         
-        .admin-zone { display: none; background: rgba(255, 245, 245, 0.9); border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; }
-        .item-card { background: rgba(255, 255, 255, 0.6); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #ffcc00; color: #000; }
-        .comment-card { background: rgba(240, 244, 248, 0.7); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #0d233a; color: #000; }
+        .admin-zone { display: none; background: rgba(255, 245, 245, 0.2); border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; }
+        .item-card { background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #ffcc00; color: #fff; }
+        .comment-card { background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #0d233a; color: #fff; }
     </style>
 </head>
 <body>
@@ -91,7 +91,7 @@
         <h3>💬 जनता के सुझाव एवं कमेंट्स</h3>
         <input type="text" id="commenterName" placeholder="आपका नाम">
         <textarea id="commentText" placeholder="पार्टी के लिए अपना सुझाव या संदेश यहाँ लिखें..."></textarea>
-        <button onclick="submitComment()" style="background: #28a745;">सुझाव भेजें</button>
+        <button onclick="submitComment()" style="background: rgba(40, 167, 69, 0.5);">सुझाव भेजें</button>
         <br><br>
         <div id="commentsList">
             <div class="comment-card"><strong>दीपक चौरसिया (गाडरवारा):</strong> पार्टी का काम बहुत अच्छा चल रहा है!</div>
@@ -107,8 +107,8 @@
     </div>
 
     <div class="section admin-zone" id="adminPanel">
-        <h3 style="color: #d9534f;">🔐 बड़े भैया का स्पेशल कंट्रोल पैनल</h3>
-        <button onclick="hideAdminPanel()" style="background:#6c757d;">पैनल छुपाएं 🔒</button>
+        <h3 style="color: #ffcccc;">🔐 बड़े भैया का स्पेशल कंट्रोल पैनल</h3>
+        <button onclick="hideAdminPanel()" style="background:rgba(108, 117, 125, 0.5);">पैनल छुपाएं 🔒</button>
     </div>
 </div>
 
