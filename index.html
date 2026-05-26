@@ -19,7 +19,6 @@
         .counter-number { color: #ffcc00; font-size: 35px; font-weight: 900; }
         input[type="text"], input[type="tel"], textarea { width: 100%; padding: 12px; margin: 5px 0 15px 0; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; background: rgba(255, 255, 255, 0.15); color: white; }
         
-        /* 🟢 बटन्स को हरा किया गया */
         button { background: #28a745 !important; color: white !important; border: 1px solid #1e7e34 !important; padding: 14px; font-weight: bold; cursor: pointer; border-radius: 8px; width: 100%; transition: 0.3s; }
         button:hover { background: #218838 !important; }
         
@@ -83,6 +82,8 @@
 
 <script>
     let count = 2;
+    let registeredPhones = ["9999999999"]; // यहाँ उन नंबर्स की लिस्ट रहेगी जो पहले से जुड़े हैं
+
     function handleHeaderClick() {
         let clicks = sessionStorage.getItem('clicks') || 0;
         clicks++;
@@ -97,10 +98,21 @@
         }
     }
     function hideAdminPanel() { document.getElementById("adminPanel").style.display = "none"; }
+    
     function registerDirectly() {
         let name = document.getElementById("memberName").value.trim();
         let village = document.getElementById("memberVillage").value.trim();
-        if (name === "" || village === "") { alert("भैया! नाम और गाँव तो लिखिए!"); return; }
+        let phone = document.getElementById("memberPhone").value.trim();
+        
+        if (name === "" || village === "" || phone === "") { alert("भैया! नाम, गाँव और मोबाइल नंबर भरिए!"); return; }
+        
+        // मोबाइल नंबर चेक (Duplicate check)
+        if (registeredPhones.includes(phone)) {
+            alert("❌ भैया, इस मोबाइल नंबर से पहले ही सदस्यता ली जा चुकी है!");
+            return;
+        }
+
+        registeredPhones.push(phone);
         count++;
         document.getElementById("memberCount").innerText = count;
         let list = document.getElementById("membersList");
@@ -108,7 +120,13 @@
         newItem.className = "item-card";
         newItem.innerHTML = `<strong>${name} (${village}):</strong> सदस्य बने।`;
         list.insertBefore(newItem, list.firstChild);
+        
+        // फॉर्म खाली करें
+        document.getElementById("memberName").value = "";
+        document.getElementById("memberVillage").value = "";
+        document.getElementById("memberPhone").value = "";
     }
+
     function submitComment() {
         let cName = document.getElementById("commenterName").value.trim();
         let cText = document.getElementById("commentText").value.trim();
@@ -118,6 +136,8 @@
         newComment.className = "comment-card";
         newComment.innerHTML = `<strong>${cName}:</strong> ${cText}`;
         cList.insertBefore(newComment, cList.firstChild);
+        document.getElementById("commenterName").value = "";
+        document.getElementById("commentText").value = "";
     }
 </script>
 </body>
