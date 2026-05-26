@@ -8,12 +8,12 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; }
         
-        /* 🖼️ बैकग्राउंड के लिए अब पक्का इंतजाम */
+        /* 🖼️ इंटरनेट वाले लिंक से परमानेंट बैकग्राउंड सेट कर दिया है भैया */
         body { 
             font-family: 'Arial', sans-serif; 
             margin: 0; 
             padding: 0; 
-            background: url('./cjp-bg.jpg.jpg') no-repeat center center fixed !important; 
+            background: url('https://images2.imgbox.com/60/a6/6qY0mZ1l_o.jpg') no-repeat center center fixed !important; 
             background-size: cover !important; 
             color: #111; 
         }
@@ -53,6 +53,7 @@
 <body>
 
 <header id="mainHeader" onclick="handleHeaderClick()">
+    <!-- लीडर वाली फोटो जो आपकी आ रही थी, उसे गिटहब से ही रखा है -->
     <img id="partyLogo" class="header-logo" src="./cjp-leader.jpg" alt="CJP Logo">
     <h1>कॉकरोच जनता पार्टी (CJP)</h1>
     <p>आधिकारिक जिला कार्यालय: नरसिंहपुर (म.प्र.)</p>
@@ -101,9 +102,10 @@
         }
     }
     function hideAdminPanel() { document.getElementById("adminPanel").style.display = "none"; }
+    
     function registerDirectly() {
         let name = document.getElementById("memberName").value.trim();
-        if (name === "") { alert("भैया! सब कुछ भरिए न!"); return; }
+        if (name === "") { alert("भैया! नाम तो लिखिए!"); return; }
         count++;
         document.getElementById("memberCount").innerText = count;
         let list = document.getElementById("membersList");
