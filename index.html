@@ -24,10 +24,9 @@
         .admin-zone { display: none; border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; background: rgba(217, 83, 79, 0.2); margin-top: 20px; }
         .del-btn { background: #d9534f; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; margin-left: 10px; font-size: 12px; }
         
-        /* रिएक्शन्स के लिए स्टाइल */
-        .reactions { margin-top: 10px; display: flex; gap: 15px; align-items: center; }
-        .reaction-btn { background: rgba(255, 255, 255, 0.2) !important; border: 1px solid #fff !important; color: white !important; padding: 5px 12px !important; border-radius: 20px !important; cursor: pointer; width: auto !important; font-weight: bold; }
-        .reaction-btn:hover { background: rgba(255, 255, 255, 0.4) !important; }
+        /* रिएक्शन्स अब एक लाइन में */
+        .reactions { margin-top: 10px; display: flex; gap: 10px; }
+        .reaction-btn { background: rgba(255, 255, 255, 0.2) !important; border: 1px solid #fff !important; color: white !important; padding: 5px 15px !important; border-radius: 20px !important; cursor: pointer; width: auto !important; font-weight: bold; }
     </style>
 </head>
 <body onload="loadSavedData()">
@@ -81,6 +80,8 @@
 <script>
     let members = JSON.parse(localStorage.getItem('cjp_members')) || [{name: "रामेश्वर दीक्षित", village: "नरसिंहपुर", phone: "9999999999"}];
     let comments = JSON.parse(localStorage.getItem('cjp_comments')) || [{name: "दीपक चौरसिया", text: "पार्टी का काम बहुत अच्छा चल रहा है!", likes: 0, dislikes: 0}];
+    // यह ट्रैक करेगा कि यूजर ने किस कमेंट पर वोट दिया है
+    let userVotes = JSON.parse(localStorage.getItem('cjp_userVotes')) || {};
 
     let clickCount = 0;
     let lastClickTime = 0;
@@ -130,9 +131,16 @@
     }
 
     function react(i, type) {
+        if (userVotes[i]) {
+            alert("भैया, आपने इस सुझाव पर पहले ही अपनी प्रतिक्रिया दे दी है!");
+            return;
+        }
         if (type === 'like') comments[i].likes++;
         else comments[i].dislikes++;
+        
+        userVotes[i] = true;
         localStorage.setItem('cjp_comments', JSON.stringify(comments));
+        localStorage.setItem('cjp_userVotes', JSON.stringify(userVotes));
         renderComments();
     }
 
