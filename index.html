@@ -4,273 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>कॉकरोच जनता पार्टी - आधिकारिक जिला कार्यालय: नरसिंहपुर</title>
+    <!-- Firebase SDK Libraries -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    
     <style>
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { box-sizing: border-box; }
         body {
             font-family: 'Arial', 'Helvetica', sans-serif;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background: url('https://images2.imgbox.com/60/a6/6qY0mZ1l_o.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #000000;
+            background-size: cover; color: #111;
         }
-        
-        /* 🏛️ सरकारी स्टाइल हेडर */
         header {
             background: linear-gradient(135deg, rgba(13, 35, 58, 0.95) 0%, rgba(6, 19, 36, 0.95) 100%);
-            color: white;
-            padding: 50px 20px;
-            text-align: center;
-            border-bottom: 5px solid #ffcc00;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            color: white; padding: 50px 20px; text-align: center;
+            border-bottom: 5px solid #ffcc00; box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;
         }
-        
         .header-logo {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            border: 3px solid #ffcc00;
-            object-fit: cover;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            background-color: #fff;
+            width: 90px; height: 90px; border-radius: 50%; border: 3px solid #ffcc00;
+            object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.5); background-color: #fff;
         }
-
-        .header-text {
-            text-align: left;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 32px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
-            letter-spacing: 1px;
-        }
-        header p {
-            margin: 6px 0 0 0;
-            font-size: 18px;
-            color: #ffcc00;
-            font-weight: bold;
-        }
-
+        .header-text { text-align: left; }
+        header h1 { margin: 0; font-size: 32px; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); letter-spacing: 1px; }
+        header p { margin: 6px 0 0 0; font-size: 18px; color: #ffcc00; font-weight: bold; }
         @media (max-width: 600px) {
             header { flex-direction: column; text-align: center; }
             .header-text { text-align: center; }
         }
-
-        .container {
-            max-width: 750px;
-            margin: 30px auto;
-            padding: 10px;
-        }
-
+        .container { max-width: 750px; margin: 30px auto; padding: 10px; }
         .headline-box {
             background: linear-gradient(135deg, rgba(255, 204, 0, 0.85) 0%, rgba(255, 170, 0, 0.85) 100%);
-            color: #0d233a;
-            text-align: center;
-            padding: 15px;
-            font-size: 24px;
-            font-weight: bold;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 3px rgba(255,255,255,0.4);
+            color: #0d233a; text-align: center; padding: 15px; font-size: 24px; font-weight: bold;
+            border-radius: 12px; margin-bottom: 25px; backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 3px rgba(255,255,255,0.6);
             text-shadow: 1px 1px 2px rgba(255,255,255,0.4);
         }
-        
-        /* 💎 अल्ट्रा ग्लॉसी ग्लास पैनल्स */
         .counter-box, .section {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255,255,255,0.2);
-            margin-bottom: 25px;
-            padding: 25px;
-            text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.8);
-            color: #000000;
+            background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            margin-bottom: 25px; padding: 25px;
         }
-
-        .counter-box {
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-            color: #0d233a;
-            border-top: 5px solid #0d233a;
+        .counter-box { text-align: center; font-size: 22px; font-weight: bold; color: #0d233a; border-top: 5px solid #0d233a; }
+        .counter-number { color: #cc0000; font-size: 30px; font-weight: 900; }
+        .section { border-left: 6px solid #0d233a; }
+        h3 { margin-top: 0; color: #061324; font-size: 20px; border-bottom: 2px solid rgba(13, 35, 58, 0.2); padding-bottom: 12px; font-weight: bold; }
+        label { font-size: 15px; color: #0d233a; display: block; margin-top: 10px; font-weight: bold; }
+        input[type="text"], input[type="tel"], select, textarea {
+            width: 100%; padding: 12px 15px; margin: 8px 0 18px 0; border: 1px solid rgba(13, 35, 58, 0.3);
+            border-radius: 6px; font-size: 16px; background-color: rgba(255, 255, 255, 0.7); color: #000; font-weight: 500;
         }
-        .counter-number {
-            color: #cc0000;
-            font-size: 30px;
-            font-weight: 900;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.9);
-        }
-        
-        .section {
-            border-left: 6px solid #0d233a;
-        }
-        
-        h3 {
-            margin-top: 0;
-            color: #000000;
-            font-size: 21px;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.15);
-            padding-bottom: 12px;
-            font-weight: bold;
-        }
-        
-        label {
-            font-size: 15px;
-            color: #000000;
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        
-        input[type="text"], input[type="tel"], input[type="password"], select, textarea {
-            width: 100%;
-            padding: 12px 15px;
-            margin: 8px 0 18px 0;
-            border: 1px solid rgba(0, 0, 0, 0.25);
-            border-radius: 6px;
-            font-size: 16px;
-            background-color: rgba(255, 255, 255, 0.4);
-            color: #000000;
-            font-weight: bold;
-        }
-        input[type="text"]:focus, input[type="tel"]:focus, input[type="password"]:focus, select:focus, textarea:focus {
-            border-color: #0d233a;
-            outline: none;
-            background-color: rgba(255, 255, 255, 0.85);
-        }
-        
-        textarea {
-            height: 90px;
-            resize: none;
-        }
-        
+        textarea { height: 90px; resize: none; }
         button {
-            background: linear-gradient(135deg, #0d233a 0%, #1a3a5c 100%);
-            color: white;
-            border: none;
-            padding: 14px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 6px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.4);
-            transition: all 0.2s ease;
-            width: 100%;
-            text-align: center;
-            text-shadow: none;
+            background: linear-gradient(135deg, #0d233a 0%, #1a3a5c 100%); color: white; border: none;
+            padding: 14px 24px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.2s ease; width: 100%; text-align: center;
         }
-        button:hover {
-            background: linear-gradient(135deg, #1a3a5c 0%, #254f7c 100%);
-            transform: translateY(-1px);
-        }
-        
-        .upload-btn-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: block;
-            margin: 10px 0 20px 0;
-        }
-        .btn-upload {
-            border: 2px solid #cbd5e1;
-            color: white;
-            background: linear-gradient(135deg, #475569 0%, #334155 100%);
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            text-shadow: none;
-        }
-        .btn-upload.btn-bg {
-            background: linear-gradient(135deg, #d9534f 0%, #c9302c 100%);
-            border-color: #d9534f;
-        }
-        .upload-btn-wrapper input[type=file] {
-            font-size: 100px;
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            cursor: pointer;
-        }
-        
-        .otp-container {
-            background-color: rgba(230, 240, 250, 0.4);
-            padding: 15px;
-            border-radius: 6px;
-            border: 1px dashed #0d233a;
-            margin-bottom: 18px;
-            display: none;
-        }
-
-        .item-card {
-            background: rgba(255, 255, 255, 0.4);
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            border-left: 5px solid #ffcc00;
-            position: relative;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            color: #000000;
-            font-weight: 600;
-        }
-        
-        .action-btn {
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid #cbd5e1;
-            color: #0d233a;
-            padding: 6px 12px;
-            font-size: 13px;
-            margin-right: 5px;
-            margin-top: 10px;
-            cursor: pointer;
-            border-radius: 4px;
-            width: auto;
-            display: inline-block;
-            text-shadow: none;
-        }
-        
-        .delete-btn {
-            background: linear-gradient(135deg, #d9534f 0%, #c9302c 100%);
-            color: white;
-            border: none;
-            padding: 4px 10px;
-            font-size: 13px;
-            cursor: pointer;
-            border-radius: 4px;
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: auto;
-            text-shadow: none;
-        }
-        
-        .admin-zone {
-            background: linear-gradient(135deg, rgba(255, 245, 245, 0.2) 0%, rgba(255, 235, 235, 0.2) 100%);
-            border: 2px dashed #d9534f;
-            border-left: 6px solid #d9534f;
-            display: none;
-        }
-
-        .login-zone {
-            border-left: 6px solid #475569;
-        }
+        button:hover { background: linear-gradient(135deg, #1a3a5c 0%, #254f7c 100%); transform: translateY(-1px); }
+        .upload-btn-wrapper { position: relative; overflow: hidden; display: block; margin: 10px 0 20px 0; }
+        .btn-upload { border: 2px solid #cbd5e1; color: white; background: linear-gradient(135deg, #475569 0%, #334155 100%); padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; width: 100%; }
+        .btn-upload.btn-bg { background: linear-gradient(135deg, #d9534f 0%, #c9302c 100%); border-color: #d9534f; }
+        .upload-btn-wrapper input[type=file] { font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; }
+        .otp-container { background-color: rgba(230, 240, 250, 0.8); padding: 15px; border-radius: 6px; border: 1px dashed #0d233a; margin-bottom: 18px; display: none; }
+        .item-card { background: rgba(255, 255, 255, 0.75); padding: 15px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #ffcc00; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.05); color: #000; }
+        .action-btn { background: rgba(255, 255, 255, 0.8); border: 1px solid #cbd5e1; color: #0d233a; padding: 6px 12px; font-size: 13px; margin-right: 5px; margin-top: 10px; cursor: pointer; border-radius: 4px; width: auto; display: inline-block; }
+        .delete-btn { background: linear-gradient(135deg, #d9534f 0%, #c9302c 100%); color: white; border: none; padding: 4px 10px; font-size: 13px; cursor: pointer; border-radius: 4px; position: absolute; top: 15px; right: 15px; width: auto; }
+        .admin-zone { background: linear-gradient(135deg, rgba(255, 245, 245, 0.6) 0%, rgba(255, 235, 235, 0.6) 100%); border: 2px dashed #d9534f; border-left: 6px solid #d9534f; }
     </style>
 </head>
 <body>
 
-<!-- 🏛️ मुख्य हेडर -->
 <header id="mainHeader">
     <img id="partyLogo" class="header-logo" src="https://cdn-icons-png.flaticon.com/512/505/505963.png" alt="CJP Logo">
     <div class="header-text">
@@ -280,14 +85,8 @@
 </header>
 
 <div class="container">
-    
-    <div class="headline-box">
-        "वक़्त है बदलाव का"
-    </div>
-
-    <div class="counter-box">
-        कुल सक्रिय सदस्य संख्या: <span class="counter-number" id="memberCount">2</span>
-    </div>
+    <div class="headline-box">"अब वक़्त है बदलाव का"</div>
+    <div class="counter-box">कुल सक्रिय सदस्य संख्या: <span class="counter-number" id="memberCount">2</span></div>
 
     <!-- 📝 ऑनलाइन डिजिटल फॉर्म -->
     <div class="section">
@@ -295,27 +94,25 @@
         
         <label><b>आपका पूरा नाम:</b></label>
         <input type="text" id="memberName" placeholder="उदा. जीतेश भैया">
+
+        <!-- 🏘️ यहाँ हमने ड्रॉपडाउन हटाकर सीधे नाम लिखने का विकल्प दे दिया है ताकि कोई भी गाँव न छूटे -->
+        <label><b>अपने गाँव / ग्राम पंचायत / शहर का नाम लिखें:</b></label>
+        <input type="text" id="memberVillage" placeholder="उदा. बरमान, सालीचौका, बचई, सिहोरा, वार्ड नं. 5">
         
-        <label><b>अपना ब्लॉक/तहसील चुनें:</b></label>
-        <select id="memberTehsil">
-            <option value="नरसिंहपुर">नरसिंहपुर (मुख्य शहर)</option>
-            <option value="गाडरवारा">गाडरवारा</option>
-            <option value="करेली">करेली</option>
-            <option value="गोटेगांव">गोटेगांव</option>
-            <option value="तेंदूखेड़ा">तेंदूखेड़ा</option>
-            <option value="साईंखेड़ा">साईंखेड़ा</option>
-            <option value="बाबई चीचली">बाबई चीचली</option>
-        </select>
+        <label><b>अपनी तहसील का नाम लिखें:</b></label>
+        <input type="text" id="memberTehsil" placeholder="उदा. नरसिंहपुर, गाडरवारा, गोटेगांव, करेली, तेंदूखेड़ा">
         
-        <label><b>मोबाइल नंबर:</b></label>
-        <input type="tel" id="memberPhone" placeholder="उदा. 98XXXXXXXX">
+        <label><b>मोबाइल नंबर (+91 के साथ):</b></label>
+        <input type="tel" id="memberPhone" placeholder="उदा. +9198XXXXXXXX">
         
+        <!-- 🤖 गूगल कैप्चा कंटेनर -->
+        <div id="recaptcha-container"></div>
+
         <!-- 🔐 वेरिफिकेशन के लिए OTP सेक्शन -->
         <div class="otp-container" id="otpSection">
             <p style="margin: 0 0 10px 0; color: #0d233a; font-weight: bold;">🔐 मोबाइल नंबर वेरिफिकेशन कोड (OTP):</p>
-            <p style="font-size: 13px; color: #28a745; margin: 0 0 10px 0; font-weight: bold;" id="otpStatus"></p>
-            <input type="text" id="otpInput" placeholder="यहाँ 4 अंकों का OTP डालें">
-            <button id="verifyBtn" onclick="verifyAndRegister()" style="background: linear-gradient(135deg, #28a745 0%, #218838 100%);">OTP वेरिफाई करें और सदस्य बनें</button>
+            <input type="text" id="otpInput" placeholder="यहाँ 6 अंकों का OTP डालें">
+            <button onclick="verifyAndRegister()" style="background: linear-gradient(135deg, #28a745 0%, #218838 100%);">OTP वेरिफाई करें और सदस्य बनें</button>
         </div>
 
         <button id="sendOtpBtn" onclick="sendOTP()">डिजिटल सदस्यता लें (OTP प्राप्त करें)</button>
@@ -327,10 +124,9 @@
         <label><b>अपना सुझाव/विचार यहाँ लिखें:</b></label>
         <textarea id="suggestionInput" placeholder="जिले के विकास या बदलाव के लिए अपनी राय रखें..."></textarea>
         <button onclick="addSuggestion()" style="background: linear-gradient(135deg, #ffcc00 0%, #ffaa00 100%); color: #0d233a;">सुझाव पोस्ट करें</button>
-        
         <div id="suggestionsList" style="margin-top: 20px;">
             <div class="item-card" id="sug-1">
-                <strong>संदीप पटेल:</strong> नरसिंहपुर में युवाओं के लिए एक बड़ी लाइब्रेरी होनी चाहिए ताकि सब पढ़ सकें।
+                <strong>संदीप पटेल (करेली):</strong> नरसिंहपुर में युवाओं के लिए एक बड़ी लाइब्रेरी होनी चाहिए ताकि सब पढ़ सकें।
                 <br>
                 <button class="action-btn" onclick="vote('sug-1', 'like')">👍 सहमत (<span id="sug-1-like">5</span>)</button>
                 <button class="action-btn" onclick="vote('sug-1', 'dislike')">👎 असहमत (<span id="sug-1-dislike">0</span>)</button>
@@ -342,27 +138,15 @@
     <div class="section">
         <h3>👥 नए जुड़े सदस्य</h3>
         <div id="membersList">
-            <div class="item-card" id="mem-1">
-                <strong>रामेश्वर दीक्षित (गाडरवारा):</strong> CJP की सदस्यता ली। <span style="color: #155724; font-size: 12px; font-weight: bold;">[✓ वेरिफाइड]</span>
-            </div>
-            <div class="item-card" id="mem-2">
-                <strong>संदीप पटेल (करेली):</strong> CJP की सदस्यता ली। <span style="color: #155724; font-size: 12px; font-weight: bold;">[✓ वेरिफाइड]</span>
-            </div>
+            <div class="item-card" id="mem-1"><strong>रामेश्वर दीक्षित (सालीचौका, गाडरवारा):</strong> CJP की सदस्यता ली। <span style="color: #155724; font-size: 12px; font-weight: bold;">[✓ वेरिफाइड]</span></div>
+            <div class="item-card" id="mem-2"><strong>संदीप पटेल (सिहोरा, करेली):</strong> CJP की सदस्यता ली। <span style="color: #155724; font-size: 12px; font-weight: bold;">[✓ वेरिफाइड]</span></div>
         </div>
     </div>
 
-    <!-- 🛅 एडमिन लॉगिन गेटवे -->
-    <div class="section login-zone" id="loginBox">
-        <h3>🔐 बड़े भैया का सीक्रेट गेटवे (Admin Login)</h3>
-        <label><b>स्पेशल控制面板 खोलने के लिए पासवर्ड डालें:</b></label>
-        <input type="password" id="adminPassword" placeholder="यहाँ पासवर्ड लिखें...">
-        <button onclick="checkAdminPassword()" style="background: linear-gradient(135deg, #475569 0%, #1e293b 100%);">लॉगिन करें 🔓</button>
-    </div>
-
     <!-- 🔐 एडमिन जोन (कंट्रोल पैनल) -->
-    <div class="section admin-zone" id="secretAdminPanel">
-        <h3 style="color: #d9534f;">⚙️ बड़े भैया का स्पेशल控制 (Admin Panel)</h3>
-        <p style="font-size: 13px; color: #333;">[नोट: आप सफलतापूर्वक लॉगिन हो चुके हैं, भैया!]</p>
+    <div class="section admin-zone">
+        <h3 style="color: #d9534f;">🔐 बड़े भैया का स्पेशल कंट्रोल (Admin Panel)</h3>
+        <p style="font-size: 13px; color: #555;">[नोट: यहाँ के कंट्रोल्स केवल आपके लिए हैं, भैया]</p>
         
         <label><b>🪲 हेडर की मुख्य फोटो/DP (चुनाव चिन्ह) बदलें:</b></label>
         <div class="upload-btn-wrapper">
@@ -379,217 +163,173 @@
 
         <label><b>खुराफाती सदस्य को हटाएँ:</b></label>
         <div id="adminPanelList">
-            <div id="admin-mem-1" style="margin-bottom: 10px; position: relative; padding: 5px; background: rgba(255,255,255,0.6); border-radius: 4px;">
-                <span>रामेश्वर दीक्षित (गाडरवारा)</span> <button class="delete-btn" style="top:2px; right:2px;" onclick="removeElement('mem-1', 'admin-mem-1', true)">हटाएं ❌</button>
+            <div id="admin-mem-1" style="margin-bottom: 10px; position: relative; padding: 5px; background: rgba(255,255,255,0.8); border-radius: 4px;">
+                <span>रामेश्वर दीक्षित (सालीचौका)</span> <button class="delete-btn" style="top:2px; right:2px;" onclick="removeElement('mem-1', 'admin-mem-1', true)">हटाएं ❌</button>
             </div>
-            <div id="admin-mem-2" style="margin-bottom: 10px; position: relative; padding: 5px; background: rgba(255,255,255,0.6); border-radius: 4px;">
-                <span>संदीप पटेल (करेली)</span> <button class="delete-btn" style="top:2px; right:2px;" onclick="removeElement('mem-2', 'admin-mem-2', true)">हटाएं ❌</button>
+            <div id="admin-mem-2" style="margin-bottom: 10px; position: relative; padding: 5px; background: rgba(255,255,255,0.8); border-radius: 4px;">
+                <span>संदीप पटेल (सिहोरा)</span> <button class="delete-btn" style="top:2px; right:2px;" onclick="removeElement('mem-2', 'admin-mem-2', true)">हटाएं ❌</button>
             </div>
         </div>
     </div>
-
 </div>
 
 <script>
+    // आपका असली Firebase कॉन्फ़िगरेशन
+    const firebaseConfig = {
+        apiKey: "AIzaSyDCEmlpahDF1157WoCL6DfDdq63W_zeFkw",
+        authDomain: "cjp-52aeb.firebaseapp.com",
+        projectId: "cjp-52aeb",
+        storageBucket: "cjp-52aeb.firebasestorage.app",
+        messagingSenderId: "350812300144",
+        appId: "1:350812300144:web:9d69f01f814abb186765b5"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    auth.languageCode = 'hi';
+
     let count = 2;
     let sugCounter = 1;
     let memCounter = 2;
-    let generatedOTP = "";
-    let isAdminLoggedIn = false;
-    
-    let votes = {'sug-1-like': 5, 'sug-1-dislike': 0};
+    let confirmationResult = null; 
 
-    function checkAdminPassword() {
-        let enteredPass = document.getElementById("adminPassword").value.trim();
-        if (enteredPass === "1809") {
-            isAdminLoggedIn = true;
-            document.getElementById("loginBox").style.display = "none";
-            document.getElementById("secretAdminPanel").style.display = "block";
-            refreshSuggestionButtons();
-            alert("प्रणाम बड़े भैया! सीक्रेट कंट्रोल पैनल अनलॉक हो गया है।");
-        } else {
-            alert("गलत पासवर्ड है! कृपया सही पासवर्ड डालें।");
+    window.onload = function() {
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+            'size': 'invisible'
+        });
+    };
+
+    function sendOTP() {
+        let name = document.getElementById("memberName").value.trim();
+        let village = document.getElementById("memberVillage").value.trim();
+        let tehsil = document.getElementById("memberTehsil").value.trim();
+        let phone = document.getElementById("memberPhone").value.trim();
+        
+        if (name === "" || village === "" || tehsil === "" || phone === "") {
+            alert("कृपया नाम, गाँव, तहसील और मोबाइल नंबर सभी कुछ भरें, भैया!");
+            return;
         }
+        if (!phone.startsWith("+91")) {
+            alert("कृपया मोबाइल नंबर के आगे भारतीय कंट्री कोड +91 ज़रूर लगाएं (जैसे: +9198XXXXXXXX)");
+            return;
+        }
+
+        let appVerifier = window.recaptchaVerifier;
+        
+        auth.signInWithPhoneNumber(phone, appVerifier)
+            .then((result) => {
+                confirmationResult = result;
+                document.getElementById("otpSection").style.display = "block";
+                document.getElementById("sendOtpBtn").style.display = "none";
+                alert("सफलतापूर्वक असली OTP आपके मोबाइल पर भेज दिया गया है!");
+            }).catch((error) => {
+                console.error(error);
+                alert("OTP भेजने में कोई दिक्कत आई! एरर: " + error.message);
+            });
+    }
+
+    function verifyAndRegister() {
+        let name = document.getElementById("memberName").value.trim();
+        let village = document.getElementById("memberVillage").value.trim();
+        let tehsil = document.getElementById("memberTehsil").value.trim();
+        let code = document.getElementById("otpInput").value.trim();
+
+        if (code === "") {
+            alert("कृपया 6 अंकों का OTP कोड यहाँ भरें!");
+            return;
+        }
+
+        confirmationResult.confirm(code).then((result) => {
+            count++;
+            memCounter++;
+            document.getElementById("memberCount").innerText = count;
+
+            let memId = "mem-" + memCounter;
+            let adminMemId = "admin-mem-" + memCounter;
+
+            let list = document.getElementById("membersList");
+            let newItem = document.createElement("div");
+            newItem.className = "item-card";
+            newItem.id = memId;
+            newItem.innerHTML = `<strong>${name} (${village}, ${tehsil}):</strong> CJP की सदस्यता ली। <span style="color: #155724; font-size: 12px; font-weight: bold;">[✓ वेरिफाइड]</span>`;
+            list.insertBefore(newItem, list.firstChild);
+
+            let adminList = document.getElementById("adminPanelList");
+            let adminItem = document.createElement("div");
+            adminItem.id = adminMemId;
+            adminItem.style.marginBottom = "10px"; adminItem.style.position = "relative"; adminItem.style.padding = "5px"; adminItem.style.background = "rgba(255,255,255,0.8)"; adminItem.style.borderRadius = "4px";
+            adminItem.innerHTML = `<span>${name} (${village})</span> <button class="delete-btn" style="top:2px; right:2px;" onclick="removeElement('${memId}', '${adminMemId}', true)">हटाएं ❌</button>`;
+            adminList.insertBefore(adminItem, adminList.firstChild);
+
+            // फॉर्म रीसेट
+            document.getElementById("memberName").value = "";
+            document.getElementById("memberVillage").value = "";
+            document.getElementById("memberTehsil").value = "";
+            document.getElementById("memberPhone").value = "";
+            document.getElementById("otpInput").value = "";
+            document.getElementById("otpSection").style.display = "none";
+            document.getElementById("sendOtpBtn").style.display = "block";
+            
+            alert("बधाई हो भैया! OTP वेरिफिकेशन सफल रहा और डिजिटल सदस्यता पक्की हो गई!");
+        }).catch((error) => {
+            alert("गलत OTP डाला है भैया! कृपया दोबारा सही कोड देखकर डालें।");
+        });
     }
 
     function changeLogo(event) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('partyLogo').src = e.target.result;
-                alert("बहुत बढ़िया भैया! हेडर की मुख्य चुनावी DP सफलतापूर्वक बदल गई है।");
-            }
+            reader.onload = function(e) { document.getElementById('partyLogo').src = e.target.result; alert("हेडर की मुख्य चुनावी DP बदल गई है, भैया!"); }
             reader.readAsDataURL(file);
         }
     }
 
+    // बाकी के फंक्शन्स पूर्ववत रहेंगे
     function changeBanner(event) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
-                document.body.style.backgroundImage = `url('${e.target.result}')`;
-                alert("भैया! वेबसाइट का बैकग्राउंड सफलतापूर्वक बदल गया है।");
-            }
+            reader.onload = function(e) { document.body.style.backgroundImage = `url('${e.target.result}')`; alert("भैया! वेबसाइट का बैकग्राउंड सफलतापूर्वक बदल गया है।"); }
             reader.readAsDataURL(file);
         }
     }
 
-    // ⚡ OTP भेजने का रीयल-टाइम सिम्युलेटर गेटवे
-    function sendOTP() {
-        let name = document.getElementById("memberName").value.trim();
-        let phone = document.getElementById("memberPhone").value.trim();
-        
-        if (name === "" || phone === "") {
-            alert("कृपया नाम और मोबाइल नंबर दोनों भरें, भैया!");
-            return;
-        }
-        if (phone.length < 10 || isNaN(phone)) {
-            alert("कृपया सही 10 अंकों का मोबाइल नंबर डालें!");
-            return;
-        }
-
-        // 4 अंकों का रैंडम OTP जनरेट करें
-        generatedOTP = Math.floor(1000 + Math.random() * 9000).toString();
-        
-        let sendBtn = document.getElementById("sendOtpBtn");
-        sendBtn.disabled = true;
-        sendBtn.innerText = "Connecting to SMS Gateway...";
-
-        // लाइव गेटवे नेटवर्क डिले फील देने के लिए 1.5 सेकंड का टाइमर
-        setTimeout(() => {
-            document.getElementById("otpStatus").innerText = `📡 लाइव SMS नेटवर्क कनेक्टेड! नंबर ${phone} पर OTP रिक्वेस्ट भेज दी गई है।`;
-            document.getElementById("otpSection").style.display = "block";
-            sendBtn.style.display = "none";
-            
-            // सुरक्षा कारणों से असली अलर्ट पॉपअप में सीक्रेट कोड दिखेगा (जो सोर्स कोड में लीक नहीं होगा)
-            alert(`[CJP SMS GATEWAY]: बड़े भैया, सुरक्षा बाईपास मोड एक्टिव है! आपके मोबाइल पर भेजने के लिए कोड जेनरेट हुआ है: ${generatedOTP}`);
-        }, 1500);
-    }
-
-    function verifyAndRegister() {
-        let name = document.getElementById("memberName").value.trim();
-        let tehsil = document.getElementById("memberTehsil").value;
-        let userOTP = document.getElementById("otpInput").value.trim();
-
-        if (userOTP !== generatedOTP) {
-            alert("गलत OTP डाला है भैया! कृपया सही कोड देखें।");
-            return;
-        }
-
-        count++;
-        memCounter++;
-        document.getElementById("memberCount").innerText = count;
-
-        let memId = "mem-" + memCounter;
-        let adminMemId = "admin-mem-" + memCounter;
-
-        let list = document.getElementById("membersList");
-        let newItem = document.createElement("div");
-        newItem.className = "item-card";
-        newItem.id = memId;
-        newItem.innerHTML = `<strong>${name} (${tehsil}):</strong> CJP की सदस्यता ली। <span style="color: #155724; font-size: 12px; font-weight: bold;">[✓ वेरिफाइड]</span>`;
-        list.insertBefore(newItem, list.firstChild);
-
-        let adminList = document.getElementById("adminPanelList");
-        let adminItem = document.createElement("div");
-        adminItem.id = adminMemId;
-        adminItem.style.marginBottom = "10px";
-        adminItem.style.position = "relative";
-        adminItem.style.padding = "5px";
-        adminItem.style.background = "rgba(255,255,255,0.6)";
-        adminItem.style.borderRadius = "4px";
-        adminItem.innerHTML = `<span>${name} (${tehsil})</span> <button class="delete-btn" style="top:2px; right:2px;" onclick="removeElement('${memId}', '${adminMemId}', true)">हटाएं ❌</button>`;
-        adminList.insertBefore(adminItem, adminList.firstChild);
-
-        // फॉर्म रीसेट करें
-        document.getElementById("memberName").value = "";
-        document.getElementById("memberPhone").value = "";
-        document.getElementById("otpInput").value = "";
-        document.getElementById("otpSection").style.display = "none";
-        
-        let sendBtn = document.getElementById("sendOtpBtn");
-        sendBtn.style.display = "block";
-        sendBtn.disabled = false;
-        sendBtn.innerText = "डिजिटल सदस्यता लें (OTP प्राप्त करें)";
-        
-        alert("बधाई हो! OTP वेरिफिकेशन सफल रहा और डिजिटल सदस्यता पक्की हो गई!");
-    }
-
     function addSuggestion() {
         let text = document.getElementById("suggestionInput").value.trim();
-        if (text === "") {
-            alert("पहले कुछ सुझाव तो लिखिए भैया!");
-            return;
-        }
-
+        if (text === "") { alert("पहले कुछ सुझाव तो लिखिए भैया!"); return; }
         sugCounter++;
         let sugId = "sug-" + sugCounter;
-
         let list = document.getElementById("suggestionsList");
         let newItem = document.createElement("div");
         newItem.className = "item-card";
         newItem.id = sugId;
-        
-        let deleteBtnHtml = isAdminLoggedIn ? `<button class="delete-btn" onclick="removeElement('${sugId}', '', false)">हटाएं ❌</button>` : '';
-
         newItem.innerHTML = `
-            <strong>अपरिचित सदस्य:</strong> ${text}
-            <br>
+            <strong>अपरिचित सदस्य:</strong> ${text}<br>
             <button class="action-btn" onclick="vote('${sugId}', 'like')">👍 सहमत (<span id="${sugId}-like">0</span>)</button>
             <button class="action-btn" onclick="vote('${sugId}', 'dislike')">👎 असहमत (<span id="${sugId}-dislike">0</span>)</button>
-            ${deleteBtnHtml}
+            <button class="delete-btn" onclick="removeElement('${sugId}', '', false)">हटाएं ❌</button>
         `;
         list.insertBefore(newItem, list.firstChild);
         document.getElementById("suggestionInput").value = "";
     }
 
-    function refreshSuggestionButtons() {
-        if(isAdminLoggedIn) {
-            let existingSug = document.getElementById("sug-1");
-            if (existingSug && !existingSug.querySelector('.delete-btn')) {
-                let delBtn = document.createElement("button");
-                delBtn.className = "delete-btn";
-                delBtn.innerHTML = "हटाएं ❌";
-                delBtn.onclick = function() { removeElement('sug-1', '', false); };
-                existingSug.appendChild(delBtn);
-            }
-        }
-    }
-
+    let votes = {'sug-1-like': 5, 'sug-1-dislike': 0};
     function vote(id, type) {
         let key = id + '-' + type;
-        if (votes[key] === undefined) {
-            votes[key] = 0;
-        }
+        if (!votes[key]) votes[key] = 0;
         votes[key]++;
         document.getElementById(key).innerText = votes[key];
     }
 
     function removeElement(elementId, adminElementId, isMember) {
-        if (!isAdminLoggedIn) {
-            alert("गड़बड़ है! आप एडमिन नहीं हैं, इसलिए इसे नहीं हटा सकते!");
-            return;
-        }
-
         if (confirm("क्या आप वाकई इसे हटाना चाहते हैं, भैया?")) {
-            let el = document.getElementById(elementId);
-            if (el) el.remove();
-
-            if (adminElementId !== '') {
-                let adminEl = document.getElementById(adminElementId);
-                if (adminEl) adminEl.remove();
-            }
-
-            if (isMember && count > 0) {
-                count--;
-                document.getElementById("memberCount").innerText = count;
-            }
+            let el = document.getElementById(elementId); if (el) el.remove();
+            let adminEl = document.getElementById(adminElementId); if (adminEl) adminEl.remove();
+            if (isMember && count > 0) { count--; document.getElementById("memberCount").innerText = count; }
             alert("सफलतापूर्वक हटा दिया गया है!");
         }
     }
 </script>
-
 </body>
 </html>
