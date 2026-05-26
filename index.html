@@ -13,9 +13,7 @@
         .container { max-width: 750px; margin: 30px auto; padding: 10px; }
         
         .counter-box, .section { background: rgba(255, 255, 255, 0.05) !important; backdrop-filter: blur(20px) !important; -webkit-backdrop-filter: blur(20px) !important; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.2); margin-bottom: 25px; padding: 25px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
-        
         .my-label { color: #ffffff; text-shadow: 1px 1px 2px #ff0000; font-weight: bold; display: block; margin-top: 10px; margin-bottom: 5px; }
-        
         .counter-number { color: #ffcc00; font-size: 35px; font-weight: 900; }
         input[type="text"], input[type="tel"], textarea { width: 100%; padding: 12px; margin: 5px 0 15px 0; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; background: rgba(255, 255, 255, 0.15); color: white; }
         
@@ -23,8 +21,8 @@
         button:hover { background: #218838 !important; }
         
         .item-card, .comment-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #ffcc00; }
-        .admin-zone { display: none; border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; background: rgba(217, 83, 79, 0.2); }
-        .del-btn { background: #d9534f; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; margin-top: 5px; }
+        .admin-zone { display: none; border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; background: rgba(217, 83, 79, 0.2); margin-top: 20px; }
+        .del-btn { background: #d9534f; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; margin-left: 10px; font-size: 12px; }
     </style>
 </head>
 <body>
@@ -73,44 +71,49 @@
 
     <div class="section admin-zone" id="adminPanel">
         <h3 style="color: #ffcccc;">🔐 बड़े भैया का स्पेशल कंट्रोल पैनल</h3>
-        <button class="del-btn" onclick="document.getElementById('m1').remove()">❌ रामेश्वर दीक्षित को हटाएँ</button>
-        <button class="del-btn" onclick="document.getElementById('c1').remove()">❌ दीपक चौरसिया का कमेंट हटाएँ</button>
-        <br><br>
+        <div id="adminControls"></div>
+        <br>
         <button onclick="hideAdminPanel()" style="background:#dc3545 !important;">पैनल छुपाएं 🔒</button>
     </div>
 </div>
 
 <script>
     let count = 2;
-    let registeredPhones = ["9999999999"]; // यहाँ उन नंबर्स की लिस्ट रहेगी जो पहले से जुड़े हैं
+    let registeredPhones = ["9999999999"]; 
 
     function handleHeaderClick() {
-        let clicks = sessionStorage.getItem('clicks') || 0;
-        clicks++;
+        let clicks = parseInt(sessionStorage.getItem('clicks') || 0) + 1;
         sessionStorage.setItem('clicks', clicks);
-        if (clicks >= 3) {
+        // 5 बार क्लिक पर खुल रहा है
+        if (clicks >= 5) {
             let password = prompt("🔐 बड़े भैया, गुप्त पासकोड दर्ज करें:");
             if (password === "1809") {
+                renderAdminPanel();
                 document.getElementById("adminPanel").style.display = "block";
                 document.getElementById("adminPanel").scrollIntoView({ behavior: 'smooth' });
-                sessionStorage.setItem('clicks', 0);
-            } else { sessionStorage.setItem('clicks', 0); }
+            }
+            sessionStorage.setItem('clicks', 0);
         }
     }
+
+    function renderAdminPanel() {
+        let container = document.getElementById("adminControls");
+        container.innerHTML = "<h4>सदस्य हटाएँ:</h4>";
+        // यहाँ से रामेश्वर को हटाने का बटन
+        container.innerHTML += `<div class='item-card'>रामेश्वर दीक्षित (9999999999) <button class='del-btn' onclick="this.parentElement.remove()">हटाएँ</button></div>`;
+        
+        container.innerHTML += "<h4>कमेंट हटाएँ:</h4>";
+        container.innerHTML += `<div class='comment-card'>दीपक चौरसिया: पार्टी का काम बहुत... <button class='del-btn' onclick="this.parentElement.remove()">हटाएँ</button></div>`;
+    }
+
     function hideAdminPanel() { document.getElementById("adminPanel").style.display = "none"; }
     
     function registerDirectly() {
         let name = document.getElementById("memberName").value.trim();
         let village = document.getElementById("memberVillage").value.trim();
         let phone = document.getElementById("memberPhone").value.trim();
-        
-        if (name === "" || village === "" || phone === "") { alert("भैया! नाम, गाँव और मोबाइल नंबर भरिए!"); return; }
-        
-        // मोबाइल नंबर चेक (Duplicate check)
-        if (registeredPhones.includes(phone)) {
-            alert("❌ भैया, इस मोबाइल नंबर से पहले ही सदस्यता ली जा चुकी है!");
-            return;
-        }
+        if (name === "" || village === "" || phone === "") { alert("भैया! जानकारी भरिए!"); return; }
+        if (registeredPhones.includes(phone)) { alert("❌ इस नंबर से पहले ही सदस्यता ली जा चुकी है!"); return; }
 
         registeredPhones.push(phone);
         count++;
@@ -120,8 +123,6 @@
         newItem.className = "item-card";
         newItem.innerHTML = `<strong>${name} (${village}):</strong> सदस्य बने।`;
         list.insertBefore(newItem, list.firstChild);
-        
-        // फॉर्म खाली करें
         document.getElementById("memberName").value = "";
         document.getElementById("memberVillage").value = "";
         document.getElementById("memberPhone").value = "";
@@ -130,7 +131,7 @@
     function submitComment() {
         let cName = document.getElementById("commenterName").value.trim();
         let cText = document.getElementById("commentText").value.trim();
-        if (cName === "" || cText === "") { alert("भैया, नाम और सुझाव भरिए!"); return; }
+        if (cName === "" || cText === "") { alert("भैया, सुझाव भरिए!"); return; }
         let cList = document.getElementById("commentsList");
         let newComment = document.createElement("div");
         newComment.className = "comment-card";
