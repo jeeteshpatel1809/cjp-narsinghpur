@@ -12,31 +12,30 @@
             font-family: 'Arial', 'Helvetica', sans-serif;
             margin: 0;
             padding: 0;
-            /* 🔽 background-size को 100% 100% किया ताकि पूरी फोटो बिना कटे फिट हो जाए 🔽 */
-            background: linear-gradient(rgba(10, 25, 47, 0.25), rgba(10, 25, 47, 0.25)), url('https://images2.imgbox.com/60/a6/6qY0mZ1l_o.jpg') no-repeat center center fixed;
-            background-size: 100% 100%;
+            /* 🔽 अब यह हमेशा आपकी अपलोड की हुई cjp-bg.jpg फोटो को इंटरनेट पर हर फोन में दिखाएगा 🔽 */
+            background: linear-gradient(rgba(10, 25, 47, 0.45), rgba(10, 25, 47, 0.45)), url('cjp-bg.jpg') no-repeat center center fixed;
+            background-size: cover;
             color: #111;
         }
         
         /* 🏛️ बैनर-स्टाइल हेडर */
         header {
-            /* 🔽 यहाँ भी background-size को 100% 100% कर दिया है, अब कॉकरोच का चेहरा कभी नहीं कटेगा 🔽 */
-            background: linear-gradient(rgba(13, 35, 58, 0.8), rgba(6, 19, 36, 0.8)), url('https://cdn-icons-png.flaticon.com/512/505/505963.png') no-repeat center center;
-            background-size: 100% 100%;
+            /* 🔽 यहाँ मुख्य बैनर में अब आपकी cjp-leader.jpg फोटो परमानेंट सेट हो गई है 🔽 */
+            background: linear-gradient(rgba(13, 35, 58, 0.7), rgba(6, 19, 36, 0.7)), url('cjp-leader.jpg') no-repeat center center;
+            background-size: cover;
             color: white;
-            padding: 60px 20px; 
+            padding: 60px 20px;
             text-align: center;
             border-bottom: 5px solid #ffcc00;
             box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-            transition: background 0.3s ease;
         }
         
         .header-text-container {
-            background: rgba(0, 0, 0, 0.65); 
+            background: rgba(0, 0, 0, 0.7);
             display: inline-block;
             padding: 15px 30px;
             border-radius: 8px;
-            backdrop-filter: blur(2px);
+            backdrop-filter: blur(4px);
         }
         
         header h1 {
@@ -74,7 +73,7 @@
         }
         
         .counter-box, .section {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.85);
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.6);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255,255,255,0.7);
@@ -124,7 +123,7 @@
             border: 1px solid rgba(13, 35, 58, 0.3);
             border-radius: 6px;
             font-size: 16px;
-            background-color: rgba(255, 255, 255, 0.85);
+            background-color: rgba(255, 255, 255, 0.95);
             color: #000;
             font-weight: 500;
         }
@@ -143,36 +142,6 @@
             width: 100%;
         }
         
-        .upload-btn-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: block;
-            margin: 10px 0 20px 0;
-        }
-        .btn-upload {
-            border: 2px solid #cbd5e1;
-            color: white;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-        }
-        .btn-upload.btn-bg {
-            background: linear-gradient(135deg, #d9534f 0%, #c9302c 100%);
-            border-color: #d9534f;
-        }
-        .upload-btn-wrapper input[type=file] {
-            font-size: 100px;
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            cursor: pointer;
-        }
-        
         .otp-container {
             background-color: rgba(230, 240, 250, 0.9);
             padding: 15px;
@@ -183,7 +152,7 @@
         }
 
         .item-card {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             padding: 15px;
             border-radius: 6px;
             margin-bottom: 15px;
@@ -222,7 +191,7 @@
         }
         
         .admin-zone {
-            background: linear-gradient(135deg, rgba(255, 245, 245, 0.7) 0%, rgba(255, 235, 235, 0.7) 100%);
+            background: linear-gradient(135deg, rgba(255, 245, 245, 0.8) 0%, rgba(255, 235, 235, 0.8) 100%);
             border: 2px dashed #d9534f;
             border-left: 6px solid #d9534f;
         }
@@ -232,13 +201,13 @@
 
 <header id="mainHeader">
     <div class="header-text-container">
-        <h1>कॉकरोच जनता पार्टी (CJP) - जिंदाबाद!</h1>
+        <h1>• कॉकरोच जनता पार्टी (CJP) - जिंदाबाद! •</h1>
         <p>आधिकारिक जिला कार्यालय: नरसिंहपुर (म.प्र.)</p>
     </div>
 </header>
 
 <div class="container">
-    
+   
     <div class="headline-box">
         "वक़्त है बदलाव का"
     </div>
@@ -268,7 +237,7 @@
         <input type="tel" id="memberPhone" placeholder="उदा. 98XXXXXXXX">
         
         <div class="otp-container" id="otpSection">
-            <p style="margin: 0 0 10px 0; color: #0d233a; font-weight: bold;">🔐 मोबाइल नंबर वेरिफिकेशन कोड (OTP):</p>
+            <p style="margin: 0 0 10px 0; color: #0d233a; font-weight: bold;">🔐 मोबाइल नंबर वेरिफिकेशन code (OTP):</p>
             <p style="font-size: 13px; color: #e60000; margin: 0 0 10px 0;" id="otpHint"></p>
             <input type="text" id="otpInput" placeholder="यहाँ 4 अंकों का OTP डालें">
             <button onclick="verifyAndRegister()" style="background: linear-gradient(135deg, #28a745 0%, #218838 100%);">OTP वेरिफाई करें और सदस्य बनें</button>
@@ -307,21 +276,8 @@
 
     <div class="section admin-zone">
         <h3 style="color: #d9534f;">🔐 बड़े भैया का स्पेशल कंट्रोल (Admin Panel)</h3>
-        <p style="font-size: 13px; color: #555;">[नोट: यहाँ के कंट्रोल्स केवल आपके लिए हैं, भैया]</p>
+        <p style="font-size: 13px; color: #555;">[नोट: फोटो स्थायी रूप से बदलने के लिए उन्हें कंप्यूटर से अपने GitHub फोल्डर में cjp-leader.jpg और cjp-bg.jpg के नाम से अपलोड कर दें, भैया!]</p>
         
-        <label><b>🏛️ ऊपर वाले मुख्य हेडर की बैकग्राउंड फोटो (बैनर) बदलें:</b></label>
-        <div class="upload-btn-wrapper">
-            <button class="btn-upload">🗳️ चश्मे वाले कॉकरोच नेता की फोटो (बैनर हेतु) अपलोड करें</button>
-            <input type="file" accept="image/*" onchange="changeHeaderBanner(event)" />
-        </div>
-
-        <label><b>🖼️ पूरी पार्टी वेबसाइट की मुख्य बैकग्राउंड फोटो बदलें:</b></label>
-        <div class="upload-btn-wrapper">
-            <button class="btn-upload btn-bg">🏛️ नई बैकग्राउंड फोटो कंप्यूटर/मोबाइल से अपलोड करें</button>
-            <input type="file" accept="image/*" onchange="changeBanner(event)" />
-        </div>
-        <hr style="border: 0; border-top: 1px dashed #d9534f; margin: 20px 0;">
-
         <label><b>खुराफाती सदस्य को हटाएँ:</b></label>
         <div id="adminPanelList">
             <div id="admin-mem-1" style="margin-bottom: 10px; position: relative; padding: 5px; background: rgba(255,255,255,0.8); border-radius: 4px;">
@@ -341,40 +297,12 @@
     let memCounter = 2;
     let generatedOTP = "";
 
-    function changeHeaderBanner(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('mainHeader').style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('${e.target.result}')`;
-                /* 🔽 अपलोड के बाद भी साइज को ऑटो-फिट (100% 100%) पर ही रखेगा 🔽 */
-                document.getElementById('mainHeader').style.backgroundSize = "100% 100%";
-                alert("शानदार भैया! ऊपर का मुख्य चुनावी बैनर अब बदल चुका है और ऑटो-फिट है।");
-            }
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function changeBanner(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.body.style.backgroundImage = `linear-gradient(rgba(10, 25, 47, 0.2), rgba(10, 25, 47, 0.2)), url('${e.target.result}')`;
-                /* 🔽 वेबसाइट बैकग्राउंड को भी अपलोड के बाद पूरी स्क्रीन पर ऑटो-फिट रखेगा 🔽 */
-                document.body.style.backgroundSize = "100% 100%";
-                alert("भैया! वेबसाइट का मुख्य बैकग्राउंड सफलतापूर्वक बदल गया है और ऑटो-फिट है।");
-            }
-            reader.readAsDataURL(file);
-        }
-    }
-
     function sendOTP() {
         let name = document.getElementById("memberName").value.trim();
         let phone = document.getElementById("memberPhone").value.trim();
         
         if (name === "" || phone === "") {
-            alert("कृपया नाम and मोबाइल नंबर दोनों भरें, भैया!");
+            alert("कृपया नाम और मोबाइल नंबर दोनों भरें, भैया!");
             return;
         }
         if (phone.length < 10) {
