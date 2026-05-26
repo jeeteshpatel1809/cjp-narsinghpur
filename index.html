@@ -42,13 +42,12 @@
         
         .container { max-width: 750px; margin: 30px auto; padding: 10px; }
         
-        /* ✨ 80% पारदर्शी ग्लास पैनल */
         .counter-box, .section { 
-            background: rgba(255, 255, 255, 0.1); 
+            background: rgba(255, 255, 255, 0.15); 
             backdrop-filter: blur(12px) !important; 
             -webkit-backdrop-filter: blur(12px) !important; 
             border-radius: 15px; 
-            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border: 1px solid rgba(255, 255, 255, 0.3); 
             margin-bottom: 25px; 
             padding: 25px; 
             color: #fff;
@@ -57,24 +56,27 @@
         
         .counter-number { color: #ffcc00; font-size: 35px; font-weight: 900; }
         
+        /* बेहतर पठनीयता के लिए इनपुट फील्ड्स */
         input[type="text"], input[type="tel"], textarea { 
-            width: 100%; padding: 12px; margin: 8px 0 18px 0; 
-            border: 1px solid rgba(255,255,255,0.3); 
-            border-radius: 8px; font-size: 16px; 
-            background: rgba(255, 255, 255, 0.15); 
-            color: white; 
+            width: 100%; padding: 14px; margin: 8px 0 18px 0; 
+            border: 2px solid rgba(255, 255, 255, 0.5); 
+            border-radius: 8px; font-size: 16px; font-weight: bold;
+            background: rgba(255, 255, 255, 0.85); 
+            color: #000; 
         }
+        
+        ::placeholder { color: #555; opacity: 1; }
         
         textarea { resize: vertical; height: 100px; }
         
         button { 
-            background: rgba(255, 255, 255, 0.2); 
-            color: white; 
-            border: 1px solid rgba(255,255,255,0.4); 
+            background: #ffcc00; 
+            color: #0d233a; 
+            border: none; 
             padding: 14px; font-size: 16px; font-weight: bold; 
             cursor: pointer; border-radius: 8px; width: 100%; transition: 0.3s; 
         }
-        button:hover { background: rgba(255, 255, 255, 0.4); }
+        button:hover { background: #e6b800; }
         
         .item-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #ffcc00; }
         .comment-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #0d233a; }
@@ -94,16 +96,16 @@
 
     <div class="section">
         <h3>📋 सदस्यता फॉर्म</h3>
-        <input type="text" id="memberName" placeholder="आपका नाम">
-        <input type="text" id="memberVillage" placeholder="गाँव/शहर">
-        <input type="text" id="memberTehsil" placeholder="तहसील">
-        <input type="tel" id="memberPhone" placeholder="मोबाइल नंबर">
+        <input type="text" id="memberName" placeholder="अपना नाम भरें">
+        <input type="text" id="memberVillage" placeholder="गाँव/शहर का नाम भरें">
+        <input type="text" id="memberTehsil" placeholder="तहसील भरें">
+        <input type="tel" id="memberPhone" placeholder="मोबाइल नंबर भरें">
         <button onclick="registerDirectly()">सदस्यता लें</button>
     </div>
 
     <div class="section">
         <h3>💬 जनता के सुझाव एवं कमेंट्स</h3>
-        <input type="text" id="commenterName" placeholder="आपका नाम">
+        <input type="text" id="commenterName" placeholder="अपना नाम भरें">
         <textarea id="commentText" placeholder="अपना संदेश यहाँ लिखें..."></textarea>
         <button onclick="submitComment()">सुझाव भेजें</button>
         <br><br>
@@ -121,7 +123,7 @@
 
     <div class="section admin-zone" id="adminPanel">
         <h3 style="color: #ffcccc;">🔐 बड़े भैया का स्पेशल कंट्रोल पैनल</h3>
-        <button onclick="hideAdminPanel()" style="background:rgba(200,0,0,0.5);">पैनल छुपाएं 🔒</button>
+        <button onclick="hideAdminPanel()" style="background:rgba(200,0,0,0.5); color:white;">पैनल छुपाएं 🔒</button>
     </div>
 </div>
 
