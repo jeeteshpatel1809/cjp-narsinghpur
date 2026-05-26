@@ -187,7 +187,13 @@
     function submitComment() {
         let cName = document.getElementById("commenterName").value.trim();
         let cText = document.getElementById("commentText").value.trim();
+        
+        // यह रहा आपका सुरक्षा चेक, नाम सदस्य लिस्ट में होना चाहिए
+        let isMember = members.find(m => m.name === cName);
+        
         if (cName === "" || cText === "") { alert("भैया, सुझाव भरिए!"); return; }
+        if (!isMember) { alert("❌ केवल पार्टी के सदस्य ही कमेंट कर सकते हैं। पहले सदस्यता लें!"); return; }
+        
         comments.push({name: cName, text: cText, likes: 0, dislikes: 0});
         localStorage.setItem('cjp_comments', JSON.stringify(comments));
         renderComments();
