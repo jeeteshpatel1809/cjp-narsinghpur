@@ -8,7 +8,6 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; }
         
-        /* 🖼️ यहाँ नया और साफ़ नाम सेट कर दिया है: cjp-bg.jpg */
         body { 
             font-family: 'Arial', sans-serif; 
             margin: 0; 
@@ -19,7 +18,7 @@
         }
         
         header { 
-            background: linear-gradient(135deg, rgba(13, 35, 58, 0.9) 0%, rgba(6, 19, 36, 0.9) 100%); 
+            background: linear-gradient(135deg, rgba(13, 35, 58, 0.8) 0%, rgba(6, 19, 36, 0.8) 100%); 
             color: white; 
             padding: 40px 20px; 
             text-align: center; 
@@ -43,27 +42,29 @@
         
         .container { max-width: 750px; margin: 30px auto; padding: 10px; }
         
-        /* ✨ 20% ग्लॉसी पैनल (4px blur) */
+        /* ✨ अपडेटेड: और ज्यादा पारदर्शी (Transparent) ग्लॉसी पैनल */
         .counter-box, .section { 
-            background: rgba(255, 255, 255, 0.65); 
-            backdrop-filter: blur(4px) !important; 
-            -webkit-backdrop-filter: blur(4px) !important; 
+            background: rgba(255, 255, 255, 0.35); 
+            backdrop-filter: blur(8px) !important; 
+            -webkit-backdrop-filter: blur(8px) !important; 
             border-radius: 12px; 
-            border: 1px solid rgba(255, 255, 255, 0.6); 
+            border: 1px solid rgba(255, 255, 255, 0.4); 
             margin-bottom: 25px; 
             padding: 25px; 
+            color: #fff; /* टेक्स्ट को बेहतर दिखाने के लिए सफेद किया है */
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
         
-        .counter-number { color: #cc0000; font-size: 30px; font-weight: 900; }
-        input[type="text"], input[type="tel"], textarea { width: 100%; padding: 12px; margin: 8px 0 18px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; background: rgba(255, 255, 255, 0.9); }
+        .counter-number { color: #ffcc00; font-size: 30px; font-weight: 900; }
+        input[type="text"], input[type="tel"], textarea { width: 100%; padding: 12px; margin: 8px 0 18px 0; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; font-size: 16px; background: rgba(255, 255, 255, 0.8); }
         textarea { resize: vertical; height: 100px; }
         
         button { background: linear-gradient(135deg, #0d233a 0%, #1a3a5c 100%); color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; width: 100%; }
         button:hover { background: linear-gradient(135deg, #1a3a5c 0%, #254f7c 100%); }
         
-        .admin-zone { display: none; background: #fff5f5; border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; }
-        .item-card { background: rgba(255, 255, 255, 0.85); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #ffcc00; }
-        .comment-card { background: rgba(240, 244, 248, 0.9); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #0d233a; }
+        .admin-zone { display: none; background: rgba(255, 245, 245, 0.9); border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; }
+        .item-card { background: rgba(255, 255, 255, 0.6); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #ffcc00; color: #000; }
+        .comment-card { background: rgba(240, 244, 248, 0.7); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #0d233a; color: #000; }
     </style>
 </head>
 <body>
