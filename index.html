@@ -23,6 +23,7 @@
         .item-card, .comment-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #ffcc00; }
         .admin-zone { display: none; border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; background: rgba(217, 83, 79, 0.2); margin-top: 20px; }
         .del-btn { background: #d9534f; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; margin-left: 10px; font-size: 12px; }
+        .reaction-btn { background: none !important; border: none !important; cursor: pointer; font-size: 18px; margin-right: 5px; }
     </style>
 </head>
 <body onload="loadSavedData()">
@@ -46,7 +47,7 @@
         <input type="text" id="memberTehsil" placeholder="तहसील लिखें">
         <label class="my-label">मोबाइल नंबर</label>
         <input type="tel" id="memberPhone" placeholder="मोबाइल नंबर">
-        <button onclick="registerDirectly()">सदसदता लें</button>
+        <button onclick="registerDirectly()">सदस्यता लें</button>
     </div>
 
     <div class="section">
@@ -74,9 +75,31 @@
 </div>
 
 <script>
-    // डेटा को लोकल स्टोरेज से मैनेज करने के लिए
     let members = JSON.parse(localStorage.getItem('cjp_members')) || [{name: "रामेश्वर दीक्षित", village: "नरसिंहपुर", phone: "9999999999"}];
-    let comments = JSON.parse(localStorage.getItem('cjp_comments')) || [{name: "दीपक चौरसिया", text: "पार्टी का काम बहुत अच्छा चल रहा है!"}];
+    let comments = JSON.parse(localStorage.getItem('cjp_comments')) || [{name: "दीपक चौरसिया", text: "पार्टी का काम बहुत अच्छा चल रहा है!", likes: 0, dislikes: 0}];
+
+    // हेडर क्लिक के लिए नया लॉजिक (Continuously check)
+    let clickCount = 0;
+    let lastClickTime = 0;
+
+    function handleHeaderClick() {
+        let currentTime = new Date().getTime();
+        // अगर आखिरी क्लिक 1 सेकंड से ज्यादा पुराना है, तो काउंटर रिसेट करें
+        if (currentTime - lastClickTime > 1000) {
+            clickCount = 0;
+        }
+        clickCount++;
+        lastClickTime = currentTime;
+
+        if (clickCount >= 5) {
+            let password = prompt("🔐 बड़े भैया, गुप्त पासकोड दर्ज करें:");
+            if (password === "1809") {
+                renderAdminPanel();
+                document.getElementById("adminPanel").style.display = "block";
+            }
+            clickCount = 0;
+        }
+    }
 
     function loadSavedData() {
         renderMembers();
@@ -95,22 +118,20 @@
     function renderComments() {
         let cList = document.getElementById("commentsList");
         cList.innerHTML = "";
-        comments.forEach(c => {
-            cList.innerHTML += `<div class="comment-card"><strong>${c.name}:</strong> ${c.text}</div>`;
+        comments.forEach((c, i) => {
+            cList.innerHTML += `<div class="comment-card">
+                <strong>${c.name}:</strong> ${c.text}<br>
+                <button class="reaction-btn" onclick="react(${i}, 'like')">👍 ${c.likes}</button>
+                <button class="reaction-btn" onclick="react(${i}, 'dislike')">👎 ${c.dislikes}</button>
+            </div>`;
         });
     }
 
-    function handleHeaderClick() {
-        let clicks = parseInt(sessionStorage.getItem('clicks') || 0) + 1;
-        sessionStorage.setItem('clicks', clicks);
-        if (clicks >= 5) {
-            let password = prompt("🔐 बड़े भैया, गुप्त पासकोड दर्ज करें:");
-            if (password === "1809") {
-                renderAdminPanel();
-                document.getElementById("adminPanel").style.display = "block";
-            }
-            sessionStorage.setItem('clicks', 0);
-        }
+    function react(i, type) {
+        if (type === 'like') comments[i].likes++;
+        else comments[i].dislikes++;
+        localStorage.setItem('cjp_comments', JSON.stringify(comments));
+        renderComments();
     }
 
     function renderAdminPanel() {
@@ -128,7 +149,6 @@
 
     function deleteMember(i) { members.splice(i, 1); localStorage.setItem('cjp_members', JSON.stringify(members)); renderMembers(); renderAdminPanel(); }
     function deleteComment(i) { comments.splice(i, 1); localStorage.setItem('cjp_comments', JSON.stringify(comments)); renderComments(); renderAdminPanel(); }
-
     function hideAdminPanel() { document.getElementById("adminPanel").style.display = "none"; }
     
     function registerDirectly() {
@@ -137,7 +157,6 @@
         let phone = document.getElementById("memberPhone").value.trim();
         if (name === "" || village === "" || phone === "") { alert("भैया! जानकारी भरिए!"); return; }
         if (members.find(m => m.phone === phone)) { alert("❌ इस नंबर से पहले ही सदस्यता ली जा चुकी है!"); return; }
-
         members.push({name, village, phone});
         localStorage.setItem('cjp_members', JSON.stringify(members));
         renderMembers();
@@ -150,8 +169,7 @@
         let cName = document.getElementById("commenterName").value.trim();
         let cText = document.getElementById("commentText").value.trim();
         if (cName === "" || cText === "") { alert("भैया, सुझाव भरिए!"); return; }
-        
-        comments.push({name: cName, text: cText});
+        comments.push({name: cName, text: cText, likes: 0, dislikes: 0});
         localStorage.setItem('cjp_comments', JSON.stringify(comments));
         renderComments();
         document.getElementById("commenterName").value = "";
