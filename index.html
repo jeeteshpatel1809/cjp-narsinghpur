@@ -4,380 +4,155 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>कॉकरोच जनता पार्टी - आधिकारिक जिला कार्यालय: नरसिंहपुर</title>
-    <!-- Firebase SDK Libraries -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     
     <style>
         *, *::before, *::after { box-sizing: border-box; }
-        body {
-            font-family: 'Arial', 'Helvetica', sans-serif;
-            margin: 0; padding: 0;
-            background: url('https://images2.imgbox.com/60/a6/6qY0mZ1l_o.jpg') no-repeat center center fixed;
-            background-size: cover; color: #111;
-        }
-        header {
-            background: linear-gradient(135deg, rgba(13, 35, 58, 0.95) 0%, rgba(6, 19, 36, 0.95) 100%);
-            color: white; padding: 50px 20px; text-align: center;
-            border-bottom: 5px solid #ffcc00; box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-            display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;
-            cursor: pointer;
-            user-select: none; -webkit-user-select: none;
-        }
-        .header-logo {
-            width: 90px; height: 90px; border-radius: 50%; border: 3px solid #ffcc00;
-            object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.5); background-color: #fff;
-        }
-        .header-text { text-align: left; }
-        header h1 { margin: 0; font-size: 32px; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); letter-spacing: 1px; }
-        header p { margin: 6px 0 0 0; font-size: 18px; color: #ffcc00; font-weight: bold; }
-        @media (max-width: 600px) {
-            header { flex-direction: column; text-align: center; }
-            .header-text { text-align: center; }
-        }
-        .container { max-width: 750px; margin: 30px auto; padding: 10px; }
-        .headline-box {
-            background: linear-gradient(135deg, rgba(255, 204, 0, 0.85) 0%, rgba(255, 170, 0, 0.85) 100%);
-            color: #0d233a; text-align: center; padding: 15px; font-size: 24px; font-weight: bold;
-            border-radius: 12px; margin-bottom: 25px; backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 3px rgba(255,255,255,0.6);
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.4);
-        }
-        .counter-box, .section {
-            background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px); border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-            margin-bottom: 25px; padding: 25px;
-        }
-        .counter-box { text-align: center; font-size: 22px; font-weight: bold; color: #0d233a; border-top: 5px solid #0d233a; }
-        .counter-number { color: #cc0000; font-size: 30px; font-weight: 900; }
-        .section { border-left: 6px solid #0d233a; }
-        h3 { margin-top: 0; color: #061324; font-size: 20px; border-bottom: 2px solid rgba(13, 35, 58, 0.2); padding-bottom: 12px; font-weight: bold; }
-        label { font-size: 15px; color: #0d233a; display: block; margin-top: 10px; font-weight: bold; }
-        input[type="text"], input[type="tel"], select, textarea {
-            width: 100%; padding: 12px 15px; margin: 8px 0 18px 0; border: 1px solid rgba(13, 35, 58, 0.3);
-            border-radius: 6px; font-size: 16px; background-color: rgba(255, 255, 255, 0.7); color: #000; font-weight: 500;
-        }
-        textarea { height: 90px; resize: none; }
-        button {
-            background: linear-gradient(135deg, #0d233a 0%, #1a3a5c 100%); color: white; border: none;
-            padding: 14px 24px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.2s ease; width: 100%; text-align: center;
-        }
-        button:hover { background: linear-gradient(135deg, #1a3a5c 0%, #254f7c 100%); transform: translateY(-1px); }
-        .upload-btn-wrapper { position: relative; overflow: hidden; display: block; margin: 10px 0 20px 0; }
-        .btn-upload { border: 2px solid #cbd5e1; color: white; background: linear-gradient(135deg, #475569 0%, #334155 100%); padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; width: 100%; }
-        .btn-upload.btn-bg { background: linear-gradient(135deg, #d9534f 0%, #c9302c 100%); border-color: #d9534f; }
-        .upload-btn-wrapper input[type=file] { font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; }
-        .otp-container { background-color: rgba(230, 240, 250, 0.8); padding: 15px; border-radius: 6px; border: 1px dashed #0d233a; margin-bottom: 18px; display: none; }
-        .item-card { background: rgba(255, 255, 255, 0.75); padding: 15px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #ffcc00; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.05); color: #000; }
-        .action-btn { background: rgba(255, 255, 255, 0.8); border: 1px solid #cbd5e1; color: #0d233a; padding: 6px 12px; font-size: 13px; margin-right: 5px; margin-top: 10px; cursor: pointer; border-radius: 4px; width: auto; display: inline-block; }
-        .delete-btn { background: linear-gradient(135deg, #d9534f 0%, #c9302c 100%); color: white; border: none; padding: 4px 10px; font-size: 13px; cursor: pointer; border-radius: 4px; position: absolute; top: 15px; right: 15px; width: auto; }
         
-        .admin-zone { 
-            background: linear-gradient(135deg, rgba(255, 245, 245, 0.6) 0%, rgba(255, 235, 235, 0.6) 100%); 
-            border: 2px dashed #d9534f; 
-            border-left: 6px solid #d9534f; 
-            display: none; 
+        /* 🖼️ यहाँ आपकी असली बैकग्राउंड फोटो cjp-bg.jpg को सेट कर दिया है */
+        body { 
+            font-family: 'Arial', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background: url('cjp-bg.jpg') no-repeat center center fixed; 
+            background-size: cover; 
+            color: #111; 
         }
-        .hide-panel-btn {
-            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-            margin-top: 15px;
+        
+        header { 
+            background: linear-gradient(135deg, rgba(13, 35, 58, 0.95) 0%, rgba(6, 19, 36, 0.95) 100%); 
+            color: white; 
+            padding: 40px 20px; 
+            text-align: center; 
+            border-bottom: 5px solid #ffcc00; 
+            cursor: pointer; 
+            user-select: none; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
         }
+        
+        /* 🗳️ चुनाव चिन्ह (DP) की स्टाइल */
+        .header-logo { 
+            width: 100px; 
+            height: 100px; 
+            border-radius: 50%; 
+            border: 3px solid #ffcc00; 
+            object-fit: cover; 
+            background-color: #fff; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        
+        .container { max-width: 750px; margin: 30px auto; padding: 10px; }
+        .counter-box, .section { background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.5); margin-bottom: 25px; padding: 25px; }
+        .counter-number { color: #cc0000; font-size: 30px; font-weight: 900; }
+        input[type="text"], input[type="tel"], textarea { width: 100%; padding: 12px; margin: 8px 0 18px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
+        button { background: linear-gradient(135deg, #0d233a 0%, #1a3a5c 100%); color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; width: 100%; }
+        button:hover { background: linear-gradient(135deg, #1a3a5c 0%, #254f7c 100%); }
+        .admin-zone { display: none; background: #fff5f5; border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; }
+        .item-card { background: rgba(255, 255, 255, 0.8); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #ffcc00; position: relative; }
     </style>
 </head>
 <body>
 
-<!-- हेडर पर 3 बार टच करने से एडमिन पैनल का पासवर्ड बॉक्स खुलेगा -->
+<!-- 📱 हेडर पट्टी: इस पर कहीं भी जल्दी-जल्दी 3 बार टच करने से सीक्रेट पैनल खुलेगा -->
 <header id="mainHeader" onclick="handleHeaderClick()">
-    <img id="partyLogo" class="header-logo" src="https://cdn-icons-png.flaticon.com/512/505/505963.png" alt="CJP Logo">
-    <div class="header-text">
-        <h1>कॉकरोच जनता पार्टी (CJP) - जिंदाबाद!</h1>
-        <p>आधिकारिक जिला कार्यालय: नरसिंहपुर (म.प्र.) [प्राइवेट]</p>
-    </div>
+    <!-- 🪲 यहाँ आपकी चुनाव चिन्ह वाली फोटो cjp-leader.jpg को गिटहब से सीधे जोड़ दिया है -->
+    <img id="partyLogo" class="header-logo" src="cjp-leader.jpg" alt="CJP Logo">
+    <h1>कॉकरोच जनता पार्टी (CJP)</h1>
+    <p>आधिकारिक जिला कार्यालय: नरसिंहपुर (म.प्र.)</p>
 </header>
 
 <div class="container">
-    <div class="headline-box">"अब वक़्त है बदलाव का"</div>
-    <div class="counter-box">कुल सक्रिय सदस्य संख्या: <span class="counter-number" id="memberCount">2</span></div>
+    <div class="headline-box" style="background: #ffcc00; color: #0d233a; text-align: center; padding: 10px; font-weight: bold; border-radius: 6px; margin-bottom: 20px;">"अब वक़्त है बदलाव का"</div>
+    <div class="counter-box">कुल सक्रिय सदस्य: <span class="counter-number" id="memberCount">2</span></div>
 
-    <!-- 📝 ऑनलाइन डिजिटल फॉर्म -->
+    <!-- 📝 डायरेक्ट सदस्यता फॉर्म -->
     <div class="section">
-        <h3>📋 ऑनलाइन डिजिटल सदस्यता फॉर्म</h3>
+        <h3>📋 सदस्यता फॉर्म</h3>
+        <label>आपका नाम:</label>
+        <input type="text" id="memberName" placeholder="नाम लिखें">
+        <label>गाँव/शहर:</label>
+        <input type="text" id="memberVillage" placeholder="गाँव का नाम">
+        <label>तहसील:</label>
+        <input type="text" id="memberTehsil" placeholder="तहसील">
+        <label>मोबाइल नंबर:</label>
+        <input type="tel" id="memberPhone" placeholder="मोबाइल नंबर">
         
-        <label><b>आपका पूरा नाम:</b></label>
-        <input type="text" id="memberName" placeholder="उदा. जीतेश भैया">
-
-        <label><b>अपने गाँव / ग्राम पंचायत / शहर का नाम लिखें:</b></label>
-        <input type="text" id="memberVillage" placeholder="उदा. बरमान, सालीचौका, बचई, सिहोरा, वार्ड नं. 5">
-        
-        <label><b>अपनी तहसील का नाम लिखें:</b></label>
-        <input type="text" id="memberTehsil" placeholder="उदा. नरसिंहपुर, गाडरवारा, गोटेगांव, करेली, तेंदूखेड़ा">
-        
-        <label><b>मोबाइल नंबर (+91 के साथ):</b></label>
-        <input type="tel" id="memberPhone" placeholder="उदा. +9198XXXXXXXX">
-        
-        <!-- 🤖 गुप्त अदृश्य कैप्चा डिब्बा (यह बैकग्राउंड में शांत रहेगा और काम नहीं रोकेगा) -->
-        <div id="recaptcha-container" style="display: none;"></div>
-
-        <!-- 🔐 वेरिफिकेशन के लिए OTP सेक्शन -->
-        <div class="otp-container" id="otpSection">
-            <p style="margin: 0 0 10px 0; color: #0d233a; font-weight: bold;">🔐 मोबाइल नंबर वेरिफिकेशन कोड (OTP):</p>
-            <input type="text" id="otpInput" placeholder="यहाँ 6 अंकों का OTP डालें">
-            <button onclick="verifyAndRegister()" style="background: linear-gradient(135deg, #28a745 0%, #218838 100%);">OTP वेरिफाई करें और सदस्य बनें</button>
-        </div>
-
-        <button id="sendOtpBtn" onclick="sendOTP()">डिजिटल सदस्यता लें (OTP प्राप्त करें)</button>
+        <button onclick="registerDirectly()">सदस्यता लें (Direct Register)</button>
     </div>
 
-    <!-- 💬 चौपाल सुझाव सेक्शन -->
-    <div class="section">
-        <h3>💬 नरसिंहपुर चौपाल (अपने सुझाव दें)</h3>
-        <label><b>अपना सुझाव/विचार यहाँ लिखें:</b></label>
-        <textarea id="suggestionInput" placeholder="जिले के विकास या बदलाव के लिए अपनी राय रखें..."></textarea>
-        <button onclick="addSuggestion()" style="background: linear-gradient(135deg, #ffcc00 0%, #ffaa00 100%); color: #0d233a;">सुझाव पोस्ट करें</button>
-        <div id="suggestionsList" style="margin-top: 20px;">
-            <div class="item-card" id="sug-1">
-                <strong>संदीप पटेल (करेली):</strong> नरसिंहपुर में युवाओं के लिए एक बड़ी लाइब्रेरी होनी चाहिए ताकि सब पढ़ सकें।
-                <br>
-                <button class="action-btn" onclick="vote('sug-1', 'like')">👍 सहमत (<span id="sug-1-like">5</span>)</button>
-                <button class="action-btn" onclick="vote('sug-1', 'dislike')">👎 असहमत (<span id="sug-1-dislike">0</span>)</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 👥 सक्रिय सदस्यों की सूची -->
     <div class="section">
         <h3>👥 नए जुड़े सदस्य</h3>
         <div id="membersList">
-            <div class="item-card" id="mem-1"><strong>रामेश्वर दीक्षित (सालीचौका, गाडरवारा):</strong> CJP की सदस्यता ली। <span style="color: #155724; font-size: 12px; font-weight: bold;">[✓ वेरिफाइड]</span></div>
-            <div class="item-card" id="mem-2"><strong>संदीप पटेल (सिहोरा, करेली):</strong> CJP की सदस्यता ली। <span style="color: #155724; font-size: 12px; font-weight: bold;">[✓ वेरिफाइड]</span></div>
+            <div class="item-card"><strong>रामेश्वर दीक्षित (सालीचौका):</strong> सदस्य बने।</div>
+            <div class="item-card"><strong>sandeep patel (सिहोरा):</strong> सदस्य बने।</div>
         </div>
     </div>
 
-    <!-- 🔐 एडमिन जोन (कंट्रोल पैनल) -->
+    <!-- 🔐 सीक्रेट एडमिन जोन -->
     <div class="section admin-zone" id="adminPanel">
-        <h3 style="color: #d9534f;">🔐 बड़े भैया का स्पेशल कंट्रोल (Admin Panel)</h3>
-        <p style="font-size: 13px; color: #555;">[नोट: काम होने के बाद नीचे दिए गए बटन से इसे वापस छुपा दें]</p>
-        
-        <label><b>🪲 हेडर की मुख्य फोटो/DP (चुनाव चिन्ह) बदलें:</b></label>
-        <div class="upload-btn-wrapper">
-            <button class="btn-upload">🗳️ चश्मे वाले कॉकरोच नेता की फोटो अपलोड करें</button>
-            <input type="file" accept="image/*" onchange="changeLogo(event)" />
-        </div>
-
-        <label><b>🖼️ पार्टी वेबसाइट की मुख्य बैकग्राउंड फोटो बदलें:</b></label>
-        <div class="upload-btn-wrapper">
-            <button class="btn-upload btn-bg">🏛️ नई बैकग्राउंड फोटो कंप्यूटर/मोबाइल से अपलोड करें</button>
-            <input type="file" accept="image/*" onchange="changeBanner(event)" />
-        </div>
-        <hr style="border: 0; border-top: 1px dashed #d9534f; margin: 20px 0;">
-
-        <label><b>खुराफाती सदस्य को हटाएँ:</b></label>
-        <div id="adminPanelList">
-            <div id="admin-mem-1" style="margin-bottom: 10px; position: relative; padding: 5px; background: rgba(255,255,255,0.8); border-radius: 4px;">
-                <span>रामेश्वर दीक्षित (सालीचौका)</span> <button class="delete-btn" style="top:2px; right:2px;" onclick="removeElement('mem-1', 'admin-mem-1', true)">हटाएं ❌</button>
-            </div>
-            <div id="admin-mem-2" style="margin-bottom: 10px; position: relative; padding: 5px; background: rgba(255,255,255,0.8); border-radius: 4px;">
-                <span>संदीप पटेल (सिहोरा)</span> <button class="delete-btn" style="top:2px; right:2px;" onclick="removeElement('mem-2', 'admin-mem-2', true)">हटाएं ❌</button>
-            </div>
-        </div>
-
-        <button class="hide-panel-btn" onclick="hideAdminPanel()">पैनल छुपाएं 🔒</button>
+        <h3 style="color: #d9534f;">🔐 बड़े भैया का स्पेशल कंट्रोल पैनल</h3>
+        <p style="font-size: 14px; color: #555;">भैया, आपकी दोनों फ़ोटो (cjp-bg.jpg और cjp-leader.jpg) गिटहब से एकदम सही सेट हो चुकी हैं!</p>
+        <button onclick="hideAdminPanel()" style="background:#6c757d;">पैनल छुपाएं 🔒</button>
     </div>
 </div>
 
 <script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyDCEmlpahDF1157WoCL6DfDdq63W_zeFkw",
-        authDomain: "cjp-52aeb.firebaseapp.com",
-        projectId: "cjp-52aeb",
-        storageBucket: "cjp-52aeb.firebasestorage.app",
-        messagingSenderId: "350812300144",
-        appId: "1:350812300144:web:9d69f01f814abb186765b5"
-    };
-    
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    auth.languageCode = 'hi';
-
     let count = 2;
-    let sugCounter = 1;
-    let memCounter = 2;
-    let confirmationResult = null; 
-
     let clickCount = 0;
     let clickTimeout;
 
-    // 📱 हेडर पर 3 बार टच करने से पासकोड पूछने वाला फंक्शन
+    // 3 बार टच डिटेक्टर
     function handleHeaderClick() {
         clickCount++;
         clearTimeout(clickTimeout);
-        clickTimeout = setTimeout(() => { clickCount = 0; }, 400);
-
+        clickTimeout = setTimeout(() => { clickCount = 0; }, 500);
         if (clickCount === 3) {
-            clickCount = 0; 
+            clickCount = 0;
             let password = prompt("🔐 बड़े भैया, कृपया अपना गुप्त पासकोड दर्ज करें:");
-            
             if (password === "1809") {
                 document.getElementById("adminPanel").style.display = "block";
                 document.getElementById("adminPanel").scrollIntoView({ behavior: 'smooth' });
                 alert("प्रणाम भैया! सीक्रेट पैनल खुल गया है।");
-            } else if (password !== null) {
+            } else if (password !== null && password !== "") {
                 alert("गलत पासकोड! आप बड़े भैया नहीं हैं।");
             }
         }
     }
 
-    function hideAdminPanel() {
-        document.getElementById("adminPanel").style.display = "none";
+    function hideAdminPanel() { 
+        document.getElementById("adminPanel").style.display = "none"; 
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ⚡ कैप्चा की एरर को बाईपास करने के लिए विंडो लोड सेटअप
-    window.onload = function() {
-        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-            'size': 'invisible',
-            'callback': (response) => { /* शांत रहें */ }
-        });
-    };
-
-    // ✉️ बिना किसी एरर के सीधा OTP भेजने वाला फंक्शन
-    function sendOTP() {
+    // डायरेक्ट रजिस्ट्रेशन फंक्शन
+    function registerDirectly() {
         let name = document.getElementById("memberName").value.trim();
         let village = document.getElementById("memberVillage").value.trim();
         let tehsil = document.getElementById("memberTehsil").value.trim();
         let phone = document.getElementById("memberPhone").value.trim();
         
         if (name === "" || village === "" || tehsil === "" || phone === "") {
-            alert("कृपया नाम, गाँव, तहसील और मोबाइल नंबर सभी कुछ भरें, भैया!");
-            return;
-        }
-        if (!phone.startsWith("+91")) {
-            alert("कृपया मोबाइल नंबर के आगे भारतीय कंट्री कोड +91 ज़रूर लगाएं");
+            alert("भैया! सब कुछ भरिए न!");
             return;
         }
 
-        // कैप्चा को जबरन रीसेट करके तुरंत आगे बढ़ाने की ट्रिक
-        try {
-            window.recaptchaVerifier.render().then(function(widgetId) {
-                grecaptcha.reset(widgetId);
-            });
-        } catch(e) { console.log("कैप्चा रिफ्रेश किया गया"); }
+        count++;
+        document.getElementById("memberCount").innerText = count;
 
-        let appVerifier = window.recaptchaVerifier;
-        
-        auth.signInWithPhoneNumber(phone, appVerifier)
-            .then((result) => {
-                confirmationResult = result;
-                document.getElementById("otpSection").style.display = "block";
-                document.getElementById("sendOtpBtn").style.display = "none";
-                alert("सफलतापूर्वक असली OTP आपके मोबाइल पर भेज दिया गया है!");
-            }).catch((error) => {
-                console.error(error);
-                alert("OTP भेजने में दिक्कत आई! कृपया जाँचें कि Firebase Console में Phone Auth चालू है और सही Domain एडेड है या नहीं। एरर: " + error.message);
-            });
-    }
-
-    function verifyAndRegister() {
-        let name = document.getElementById("memberName").value.trim();
-        let village = document.getElementById("memberVillage").value.trim();
-        let tehsil = document.getElementById("memberTehsil").value.trim();
-        let code = document.getElementById("otpInput").value.trim();
-
-        if (code === "") {
-            alert("कृपया 6 अंकों का OTP कोड यहाँ भरें!");
-            return;
-        }
-
-        confirmationResult.confirm(code).then((result) => {
-            count++;
-            memCounter++;
-            document.getElementById("memberCount").innerText = count;
-
-            let memId = "mem-" + memCounter;
-            let adminMemId = "admin-mem-" + memCounter;
-
-            let list = document.getElementById("membersList");
-            let newItem = document.createElement("div");
-            newItem.className = "item-card";
-            newItem.id = memId;
-            newItem.innerHTML = `<strong>${name} (${village}, ${tehsil}):</strong> CJP की सदस्यता ली। <span style="color: #155724; font-size: 12px; font-weight: bold;">[✓ वेरिफाइड]</span>`;
-            list.insertBefore(newItem, list.firstChild);
-
-            let adminList = document.getElementById("adminPanelList");
-            let adminItem = document.createElement("div");
-            adminItem.id = adminMemId;
-            adminItem.style.marginBottom = "10px"; adminItem.style.position = "relative"; adminItem.style.padding = "5px"; adminItem.style.background = "rgba(255,255,255,0.8)"; adminItem.style.borderRadius = "4px";
-            adminItem.innerHTML = `<span>${name} (${village})</span> <button class="delete-btn" style="top:2px; right:2px;" onclick="removeElement('${memId}', '${adminMemId}', true)">हटाएं ❌</button>`;
-            adminList.insertBefore(adminItem, adminList.firstChild);
-
-            document.getElementById("memberName").value = "";
-            document.getElementById("memberVillage").value = "";
-            document.getElementById("memberTehsil").value = "";
-            document.getElementById("memberPhone").value = "";
-            document.getElementById("otpInput").value = "";
-            document.getElementById("otpSection").style.display = "none";
-            document.getElementById("sendOtpBtn").style.display = "block";
-            
-            alert("बधाई हो भैया! OTP वेरिफिकेशन सफल रहा और डिजिटल सदस्यता पक्की हो गई!");
-        }).catch((error) => {
-            alert("गलत OTP डाला है भैया! कृपया दोबारा सही कोड देखकर डालें।");
-        });
-    }
-
-    function changeLogo(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) { document.getElementById('partyLogo').src = e.target.result; alert("हेडर की मुख्य चुनावी DP बदल गई है, भैया!"); }
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function changeBanner(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) { document.body.style.backgroundImage = `url('${e.target.result}')`; alert("भैया! वेबसाइट का बैकग्राउंड सफलतापूर्वक बदल गया है।"); }
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function addSuggestion() {
-        let text = document.getElementById("suggestionInput").value.trim();
-        if (text === "") { alert("पहले कुछ सुझाव तो लिखिए भैया!"); return; }
-        sugCounter++;
-        let sugId = "sug-" + sugCounter;
-        let list = document.getElementById("suggestionsList");
+        let list = document.getElementById("membersList");
         let newItem = document.createElement("div");
         newItem.className = "item-card";
-        newItem.id = sugId;
-        newItem.innerHTML = `
-            <strong>अपरिचित सदस्य:</strong> ${text}<br>
-            <button class="action-btn" onclick="vote('${sugId}', 'like')">👍 सहमत (<span id="${sugId}-like">0</span>)</button>
-            <button class="action-btn" onclick="vote('${sugId}', 'dislike')">👎 असहमत (<span id="${sugId}-dislike">0</span>)</button>
-            <button class="delete-btn" onclick="removeElement('${sugId}', '', false)">हटाएं ❌</button>
-        `;
+        newItem.innerHTML = `<strong>${name} (${village}, ${tehsil}):</strong> सदस्य बने।`;
         list.insertBefore(newItem, list.firstChild);
-        document.getElementById("suggestionInput").value = "";
-    }
 
-    let votes = {'sug-1-like': 5, 'sug-1-dislike': 0};
-    function vote(id, type) {
-        let key = id + '-' + type;
-        if (!votes[key]) votes[key] = 0;
-        votes[key]++;
-        document.getElementById(key).innerText = votes[key];
-    }
-
-    function removeElement(elementId, adminElementId, isMember) {
-        if (confirm("क्या आप वाकई इसे हटाना चाहते हैं, भैया?")) {
-            let el = document.getElementById(elementId); if (el) el.remove();
-            let adminEl = document.getElementById(adminElementId); if (adminEl) adminEl.remove();
-            if (isMember && count > 0) { count--; document.getElementById("memberCount").innerText = count; }
-            alert("सफलतापूर्वक हटा दिया गया है!");
-        }
+        document.getElementById("memberName").value = "";
+        document.getElementById("memberVillage").value = "";
+        document.getElementById("memberTehsil").value = "";
+        document.getElementById("memberPhone").value = "";
+        
+        alert("बधाई हो भैया! डिजिटल सदस्यता पक्की हो गई!");
     }
 </script>
 </body>
