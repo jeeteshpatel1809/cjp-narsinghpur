@@ -3,69 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>कॉकरोच जनता पार्टी - आधिकारिक जिला कार्यालय: नरसिंहपुर</title>
-    
     <style>
-        *, *::before, *::after { box-sizing: border-box; }
-        
         body { 
             font-family: 'Arial', sans-serif; 
-            margin: 0; padding: 0; 
-            background: #0d233a url('cjp-bg.jpg') no-repeat center center fixed !important; 
-            background-size: cover !important; 
+            background: #0d233a; /* डार्क बैकग्राउंड */
             color: #fff; 
+            padding: 20px;
         }
-        
-        /* सदस्यता फॉर्म वाला पैनल (अब अधिक पारदर्शी) */
+
+        /* यह है वो सदस्यता वाला मुख्य पैनल */
         .registration-section { 
-            background: rgba(255, 255, 255, 0.05); /* बहुत हल्का पारदर्शी */
-            backdrop-filter: blur(8px) !important; 
+            background: rgba(255, 255, 255, 0.05); /* बहुत ज्यादा पारदर्शी */
             border: 1px solid rgba(255, 255, 255, 0.2); 
-            border-radius: 15px; margin-bottom: 25px; padding: 25px;
+            border-radius: 15px; 
+            padding: 30px;
+            margin-bottom: 25px;
         }
 
-        /* इनपुट फील्ड्स (अब और ज्यादा स्पष्ट) */
+        /* इनपुट बॉक्स - इन्हें पूरी तरह से ओपेक (Opaque/Solid) किया है ताकि साफ दिखे */
         input[type="text"], input[type="tel"], textarea { 
-            width: 100%; padding: 15px; margin: 10px 0 20px 0; 
-            border: 2px solid #ffcc00; /* बॉर्डर उभारा गया */
-            border-radius: 10px; font-size: 18px; font-weight: bold;
-            background: rgba(255, 255, 255, 0.95); /* अंदर का हिस्सा साफ */
-            color: #000; /* टेक्स्ट काला रखा ताकि पढ़ने में आए */
+            width: 100%; 
+            padding: 18px; 
+            margin: 10px 0 20px 0; 
+            border: 3px solid #fff; /* सफेद मोटा बॉर्डर */
+            border-radius: 10px; 
+            font-size: 18px; 
+            font-weight: bold;
+            background-color: #ffffff !important; /* पूरा सफेद बैकग्राउंड */
+            color: #000000 !important; /* काला टेक्स्ट ताकि साफ़ दिखे */
         }
 
-        /* प्लेसहोल्डर को गहरा किया */
-        ::placeholder { color: #333; font-weight: bold; opacity: 1; }
+        /* प्लेसहोल्डर (जो लिखा रहता है) उसे काला और गहरा किया */
+        ::placeholder { 
+            color: #333333 !important; 
+            font-weight: 900 !important; 
+            opacity: 1 !important; 
+        }
 
-        .container { max-width: 750px; margin: 30px auto; padding: 10px; }
-        .counter-box { background: rgba(255, 255, 255, 0.15); padding: 25px; border-radius: 15px; margin-bottom: 25px; text-align: center; }
-        .counter-number { color: #ffcc00; font-size: 35px; font-weight: 900; }
-        
         button { 
-            background: #ffcc00; color: #0d233a; border: none; padding: 15px; 
-            font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 10px; width: 100%; 
+            background: #ffcc00; 
+            color: #000; 
+            padding: 15px; 
+            font-size: 18px; 
+            font-weight: bold; 
+            border: none; 
+            border-radius: 10px; 
+            width: 100%; 
+            cursor: pointer;
         }
-        
-        .section { background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 15px; margin-bottom: 20px; }
-        .item-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #ffcc00; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="counter-box">कुल सक्रिय सदस्य: <span class="counter-number" id="memberCount">2</span></div>
-
-    <!-- अपडेटेड सदस्यता फॉर्म -->
     <div class="registration-section">
-        <h3>📋 सदस्यता फॉर्म</h3>
-        <input type="text" id="memberName" placeholder="अपना नाम यहाँ लिखें">
+        <h3 style="color: #ffcc00;">📋 सदस्यता फॉर्म</h3>
+        
+        <input type="text" id="memberName" placeholder="अपना नाम भरें">
         <input type="text" id="memberVillage" placeholder="गाँव/शहर का नाम भरें">
-        <input type="text" id="memberTehsil" placeholder="तहसील का नाम भरें">
-        <input type="tel" id="memberPhone" placeholder="मोबाइल नंबर दर्ज करें">
+        <input type="text" id="memberTehsil" placeholder="तहसील भरें">
+        <input type="tel" id="memberPhone" placeholder="मोबाइल नंबर लिखें">
+        
         <button onclick="registerDirectly()">सदस्यता लें</button>
     </div>
 
-    <!-- अन्य सेक्शन्स... -->
-</div>
-<!-- बाकी स्क्रिप्ट वही है -->
 </body>
 </html>
