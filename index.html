@@ -3,68 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>कॉकरोच जनता पार्टी - आधिकारिक जिला कार्यालय: नरसिंहपुर</title>
+    
     <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        
         body { 
             font-family: 'Arial', sans-serif; 
-            background: #0d233a; /* डार्क बैकग्राउंड */
+            margin: 0; padding: 0; 
+            background: #0d233a url('cjp-bg.jpg') no-repeat center center fixed !important; 
+            background-size: cover !important; 
             color: #fff; 
-            padding: 20px;
         }
-
-        /* यह है वो सदस्यता वाला मुख्य पैनल */
-        .registration-section { 
-            background: rgba(255, 255, 255, 0.05); /* बहुत ज्यादा पारदर्शी */
-            border: 1px solid rgba(255, 255, 255, 0.2); 
-            border-radius: 15px; 
-            padding: 30px;
-            margin-bottom: 25px;
+        
+        header { background: rgba(0, 0, 0, 0.2); color: white; padding: 40px 20px; text-align: center; border-bottom: 2px solid rgba(255, 204, 0, 0.5); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .header-logo { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #ffcc00; object-fit: cover; background-color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .container { max-width: 750px; margin: 30px auto; padding: 10px; }
+        
+        /* 0.05 ओपेसिटी के साथ और अधिक पारदर्शी पैनल */
+        .counter-box, .section { 
+            background: rgba(255, 255, 255, 0.05) !important; 
+            backdrop-filter: blur(12px) !important; 
+            border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1); 
+            margin-bottom: 25px; padding: 25px; color: #fff;
         }
-
-        /* इनपुट बॉक्स - इन्हें पूरी तरह से ओपेक (Opaque/Solid) किया है ताकि साफ दिखे */
+        
+        .counter-number { color: #ffcc00; font-size: 35px; font-weight: 900; }
+        
+        /* लेबल को सफेद रंग दिया */
+        .field-label { color: #ffffff; font-weight: bold; margin-bottom: 5px; display: block; }
+        
         input[type="text"], input[type="tel"], textarea { 
-            width: 100%; 
-            padding: 18px; 
-            margin: 10px 0 20px 0; 
-            border: 3px solid #fff; /* सफेद मोटा बॉर्डर */
-            border-radius: 10px; 
-            font-size: 18px; 
-            font-weight: bold;
-            background-color: #ffffff !important; /* पूरा सफेद बैकग्राउंड */
-            color: #000000 !important; /* काला टेक्स्ट ताकि साफ़ दिखे */
+            width: 100%; padding: 12px; margin: 8px 0 18px 0; 
+            border: 1px solid rgba(255,255,255,0.3); 
+            border-radius: 8px; font-size: 16px; 
+            background: rgba(255, 255, 255, 0.15); 
+            color: white; 
         }
-
-        /* प्लेसहोल्डर (जो लिखा रहता है) उसे काला और गहरा किया */
-        ::placeholder { 
-            color: #333333 !important; 
-            font-weight: 900 !important; 
-            opacity: 1 !important; 
-        }
-
-        button { 
-            background: #ffcc00; 
-            color: #000; 
-            padding: 15px; 
-            font-size: 18px; 
-            font-weight: bold; 
-            border: none; 
-            border-radius: 10px; 
-            width: 100%; 
-            cursor: pointer;
-        }
+        
+        textarea { resize: vertical; height: 100px; }
+        
+        button { background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255,255,255,0.4); padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 8px; width: 100%; }
+        button:hover { background: rgba(255, 255, 255, 0.4); }
+        
+        .item-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #ffcc00; }
+        .comment-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #0d233a; }
+        .admin-zone { display: none; border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; background: rgba(217, 83, 79, 0.2); }
     </style>
 </head>
 <body>
 
-    <div class="registration-section">
-        <h3 style="color: #ffcc00;">📋 सदस्यता फॉर्म</h3>
-        
-        <input type="text" id="memberName" placeholder="अपना नाम भरें">
-        <input type="text" id="memberVillage" placeholder="गाँव/शहर का नाम भरें">
-        <input type="text" id="memberTehsil" placeholder="तहसील भरें">
+<header id="mainHeader" onclick="handleHeaderClick()">
+    <img id="partyLogo" class="header-logo" src="cjp-leader.jpg" alt="CJP Logo">
+    <h1>कॉकरोच जनता पार्टी (CJP)</h1>
+    <p>आधिकारिक जिला कार्यालय: नरसिंहपुर (म.प्र.)</p>
+</header>
+
+<div class="container">
+    <div class="counter-box">कुल सक्रिय सदस्य: <span class="counter-number" id="memberCount">2</span></div>
+
+    <div class="section">
+        <h3>📋 सदस्यता फॉर्म</h3>
+        <label class="field-label">आपका नाम</label>
+        <input type="text" id="memberName" placeholder="नाम लिखें">
+        <label class="field-label">गाँव/शहर</label>
+        <input type="text" id="memberVillage" placeholder="गाँव/शहर का नाम">
+        <label class="field-label">तहसील</label>
+        <input type="text" id="memberTehsil" placeholder="तहसील">
+        <label class="field-label">मोबाइल नंबर</label>
         <input type="tel" id="memberPhone" placeholder="मोबाइल नंबर लिखें">
-        
         <button onclick="registerDirectly()">सदस्यता लें</button>
     </div>
 
+    <!-- बाकी कोड वैसा ही है जैसा आपने दिया था -->
+    <div class="section">
+        <h3>💬 जनता के सुझाव एवं कमेंट्स</h3>
+        <label class="field-label">आपका नाम</label>
+        <input type="text" id="commenterName" placeholder="नाम लिखें">
+        <label class="field-label">सुझाव</label>
+        <textarea id="commentText" placeholder="अपना संदेश यहाँ लिखें..."></textarea>
+        <button onclick="submitComment()">सुझाव भेजें</button>
+        <br><br>
+        <div id="commentsList">
+            <div class="comment-card"><strong>दीपक चौरसिया:</strong> पार्टी का काम बहुत अच्छा चल रहा है!</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h3>👥 नए जुड़े सदस्य</h3>
+        <div id="membersList">
+            <div class="item-card"><strong>रामेश्वर दीक्षित:</strong> सदस्य बने।</div>
+        </div>
+    </div>
+
+    <div class="section admin-zone" id="adminPanel">
+        <h3 style="color: #ffcccc;">🔐 बड़े भैया का स्पेशल कंट्रोल पैनल</h3>
+        <button onclick="hideAdminPanel()" style="background:rgba(200,0,0,0.5);">पैनल छुपाएं 🔒</button>
+    </div>
+</div>
+
+<script>
+    let count = 2;
+    function handleHeaderClick() {
+        let clicks = sessionStorage.getItem('clicks') || 0;
+        clicks++;
+        sessionStorage.setItem('clicks', clicks);
+        if (clicks >= 3) {
+            let password = prompt("🔐 बड़े भैया, गुप्त पासकोड दर्ज करें:");
+            if (password === "1809") {
+                document.getElementById("adminPanel").style.display = "block";
+                document.getElementById("adminPanel").scrollIntoView({ behavior: 'smooth' });
+                sessionStorage.setItem('clicks', 0);
+            } else {
+                sessionStorage.setItem('clicks', 0);
+            }
+        }
+    }
+    function hideAdminPanel() { document.getElementById("adminPanel").style.display = "none"; }
+    
+    function registerDirectly() {
+        let name = document.getElementById("memberName").value.trim();
+        let village = document.getElementById("memberVillage").value.trim();
+        if (name === "" || village === "") { alert("भैया! नाम और गाँव तो लिखिए!"); return; }
+        count++;
+        document.getElementById("memberCount").innerText = count;
+        let list = document.getElementById("membersList");
+        let newItem = document.createElement("div");
+        newItem.className = "item-card";
+        newItem.innerHTML = `<strong>${name} (${village}):</strong> सदस्य बने।`;
+        list.insertBefore(newItem, list.firstChild);
+        document.getElementById("memberName").value = "";
+        document.getElementById("memberVillage").value = "";
+    }
+
+    function submitComment() {
+        let cName = document.getElementById("commenterName").value.trim();
+        let cText = document.getElementById("commentText").value.trim();
+        if (cName === "" || cText === "") { alert("भैया, नाम और सुझाव भरिए!"); return; }
+        let cList = document.getElementById("commentsList");
+        let newComment = document.createElement("div");
+        newComment.className = "comment-card";
+        newComment.innerHTML = `<strong>${cName}:</strong> ${cText}`;
+        cList.insertBefore(newComment, cList.firstChild);
+        document.getElementById("commenterName").value = "";
+        document.getElementById("commentText").value = "";
+    }
+</script>
 </body>
 </html>
