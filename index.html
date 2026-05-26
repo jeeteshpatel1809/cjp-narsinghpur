@@ -80,7 +80,6 @@
 <script>
     let members = JSON.parse(localStorage.getItem('cjp_members')) || [{name: "रामेश्वर दीक्षित", village: "नरसिंहपुर", phone: "9999999999"}];
     let comments = JSON.parse(localStorage.getItem('cjp_comments')) || [{name: "दीपक चौरसिया", text: "पार्टी का काम बहुत अच्छा चल रहा है!", likes: 0, dislikes: 0}];
-    // यह ट्रैक करेगा कि यूजर ने किस कमेंट पर वोट दिया है
     let userVotes = JSON.parse(localStorage.getItem('cjp_userVotes')) || {};
 
     let clickCount = 0;
@@ -131,14 +130,24 @@
     }
 
     function react(i, type) {
-        if (userVotes[i]) {
-            alert("भैया, आपने इस सुझाव पर पहले ही अपनी प्रतिक्रिया दे दी है!");
-            return;
-        }
-        if (type === 'like') comments[i].likes++;
-        else comments[i].dislikes++;
+        let currentVote = userVotes[i];
         
-        userVotes[i] = true;
+        // अगर पहले से वोट दिया है, तो उसे हटाओ (Toggle)
+        if (currentVote === type) {
+            if (type === 'like') comments[i].likes--;
+            else comments[i].dislikes--;
+            userVotes[i] = null;
+        } 
+        // अगर वोट बदल रहे हैं
+        else {
+            if (currentVote === 'like') comments[i].likes--;
+            if (currentVote === 'dislike') comments[i].dislikes--;
+            
+            if (type === 'like') comments[i].likes++;
+            else comments[i].dislikes++;
+            userVotes[i] = type;
+        }
+        
         localStorage.setItem('cjp_comments', JSON.stringify(comments));
         localStorage.setItem('cjp_userVotes', JSON.stringify(userVotes));
         renderComments();
