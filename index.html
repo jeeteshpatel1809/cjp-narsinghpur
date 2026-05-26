@@ -9,18 +9,18 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; }
         
-        /* 🖼️ इंटरनेट वाले लिंक से परमानेंट बैकग्राउंड सेट कर दिया है भैया */
+        /* 🖼️ यहाँ नया और साफ़ नाम सेट कर दिया है: cjp-bg.jpg */
         body { 
             font-family: 'Arial', sans-serif; 
             margin: 0; 
             padding: 0; 
-            background: url('https://images2.imgbox.com/60/a6/6qY0mZ1l_o.jpg') no-repeat center center fixed !important; 
+            background: #0d233a url('cjp-bg.jpg') no-repeat center center fixed !important; 
             background-size: cover !important; 
             color: #111; 
         }
         
         header { 
-            background: linear-gradient(135deg, rgba(13, 35, 58, 0.95) 0%, rgba(6, 19, 36, 0.95) 100%); 
+            background: linear-gradient(135deg, rgba(13, 35, 58, 0.9) 0%, rgba(6, 19, 36, 0.9) 100%); 
             color: white; 
             padding: 40px 20px; 
             text-align: center; 
@@ -43,19 +43,34 @@
         }
         
         .container { max-width: 750px; margin: 30px auto; padding: 10px; }
-        .counter-box, .section { background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(12px); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.5); margin-bottom: 25px; padding: 25px; }
+        
+        /* ✨ 20% ग्लॉसी पैनल (4px blur) */
+        .counter-box, .section { 
+            background: rgba(255, 255, 255, 0.65); 
+            backdrop-filter: blur(4px) !important; 
+            -webkit-backdrop-filter: blur(4px) !important; 
+            border-radius: 12px; 
+            border: 1px solid rgba(255, 255, 255, 0.6); 
+            margin-bottom: 25px; 
+            padding: 25px; 
+        }
+        
         .counter-number { color: #cc0000; font-size: 30px; font-weight: 900; }
-        input[type="text"], input[type="tel"] { width: 100%; padding: 12px; margin: 8px 0 18px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
+        input[type="text"], input[type="tel"], textarea { width: 100%; padding: 12px; margin: 8px 0 18px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; background: rgba(255, 255, 255, 0.9); }
+        textarea { resize: vertical; height: 100px; }
+        
         button { background: linear-gradient(135deg, #0d233a 0%, #1a3a5c 100%); color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; width: 100%; }
+        button:hover { background: linear-gradient(135deg, #1a3a5c 0%, #254f7c 100%); }
+        
         .admin-zone { display: none; background: #fff5f5; border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; }
-        .item-card { background: rgba(255, 255, 255, 0.8); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #ffcc00; }
+        .item-card { background: rgba(255, 255, 255, 0.85); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #ffcc00; }
+        .comment-card { background: rgba(240, 244, 248, 0.9); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #0d233a; }
     </style>
 </head>
 <body>
 
 <header id="mainHeader" onclick="handleHeaderClick()">
-    <!-- लीडर वाली फोटो जो आपकी आ रही थी, उसे गिटहब से ही रखा है -->
-    <img id="partyLogo" class="header-logo" src="./cjp-leader.jpg" alt="CJP Logo">
+    <img id="partyLogo" class="header-logo" src="cjp-leader.jpg" alt="CJP Logo">
     <h1>कॉकरोच जनता पार्टी (CJP)</h1>
     <p>आधिकारिक जिला कार्यालय: नरसिंहपुर (म.प्र.)</p>
 </header>
@@ -70,6 +85,17 @@
         <input type="text" id="memberTehsil" placeholder="तहसील">
         <input type="tel" id="memberPhone" placeholder="मोबाइल नंबर">
         <button onclick="registerDirectly()">सदस्यता लें (Direct Register)</button>
+    </div>
+
+    <div class="section">
+        <h3>💬 जनता के सुझाव एवं कमेंट्स</h3>
+        <input type="text" id="commenterName" placeholder="आपका नाम">
+        <textarea id="commentText" placeholder="पार्टी के लिए अपना सुझाव या संदेश यहाँ लिखें..."></textarea>
+        <button onclick="submitComment()" style="background: #28a745;">सुझाव भेजें</button>
+        <br><br>
+        <div id="commentsList">
+            <div class="comment-card"><strong>दीपक चौरसिया (गाडरवारा):</strong> पार्टी का काम बहुत अच्छा चल रहा है!</div>
+        </div>
     </div>
 
     <div class="section">
@@ -96,6 +122,7 @@
             let password = prompt("🔐 बड़े भैया, कृपया अपना गुप्त पासकोड दर्ज करें:");
             if (password === "1809") {
                 document.getElementById("adminPanel").style.display = "block";
+                document.getElementById("adminPanel").scrollIntoView({ behavior: 'smooth' });
                 sessionStorage.setItem('clicks', 0);
             } else {
                 sessionStorage.setItem('clicks', 0);
@@ -106,15 +133,30 @@
     
     function registerDirectly() {
         let name = document.getElementById("memberName").value.trim();
-        if (name === "") { alert("भैया! नाम तो लिखिए!"); return; }
+        let village = document.getElementById("memberVillage").value.trim();
+        if (name === "" || village === "") { alert("भैया! नाम और गाँव तो लिखिए!"); return; }
         count++;
         document.getElementById("memberCount").innerText = count;
         let list = document.getElementById("membersList");
         let newItem = document.createElement("div");
         newItem.className = "item-card";
-        newItem.innerHTML = `<strong>${name}:</strong> सदस्य बने।`;
+        newItem.innerHTML = `<strong>${name} (${village}):</strong> सदस्य बने।`;
         list.insertBefore(newItem, list.firstChild);
-        alert("बधाई हो भैया! डिजिटल सदस्यता पक्की हो गई!");
+        document.getElementById("memberName").value = "";
+        document.getElementById("memberVillage").value = "";
+    }
+
+    function submitComment() {
+        let cName = document.getElementById("commenterName").value.trim();
+        let cText = document.getElementById("commentText").value.trim();
+        if (cName === "" || cText === "") { alert("भैया, नाम और सुझाव दोनों भरिए!"); return; }
+        let cList = document.getElementById("commentsList");
+        let newComment = document.createElement("div");
+        newComment.className = "comment-card";
+        newComment.innerHTML = `<strong>${cName}:</strong> ${cText}`;
+        cList.insertBefore(newComment, cList.firstChild);
+        document.getElementById("commenterName").value = "";
+        document.getElementById("commentText").value = "";
     }
 </script>
 </body>
