@@ -23,7 +23,11 @@
         .item-card, .comment-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #ffcc00; }
         .admin-zone { display: none; border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; background: rgba(217, 83, 79, 0.2); margin-top: 20px; }
         .del-btn { background: #d9534f; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; margin-left: 10px; font-size: 12px; }
-        .reaction-btn { background: none !important; border: none !important; cursor: pointer; font-size: 18px; margin-right: 5px; }
+        
+        /* रिएक्शन्स के लिए स्टाइल */
+        .reactions { margin-top: 10px; display: flex; gap: 15px; align-items: center; }
+        .reaction-btn { background: rgba(255, 255, 255, 0.2) !important; border: 1px solid #fff !important; color: white !important; padding: 5px 12px !important; border-radius: 20px !important; cursor: pointer; width: auto !important; font-weight: bold; }
+        .reaction-btn:hover { background: rgba(255, 255, 255, 0.4) !important; }
     </style>
 </head>
 <body onload="loadSavedData()">
@@ -78,16 +82,12 @@
     let members = JSON.parse(localStorage.getItem('cjp_members')) || [{name: "रामेश्वर दीक्षित", village: "नरसिंहपुर", phone: "9999999999"}];
     let comments = JSON.parse(localStorage.getItem('cjp_comments')) || [{name: "दीपक चौरसिया", text: "पार्टी का काम बहुत अच्छा चल रहा है!", likes: 0, dislikes: 0}];
 
-    // हेडर क्लिक के लिए नया लॉजिक (Continuously check)
     let clickCount = 0;
     let lastClickTime = 0;
 
     function handleHeaderClick() {
         let currentTime = new Date().getTime();
-        // अगर आखिरी क्लिक 1 सेकंड से ज्यादा पुराना है, तो काउंटर रिसेट करें
-        if (currentTime - lastClickTime > 1000) {
-            clickCount = 0;
-        }
+        if (currentTime - lastClickTime > 1000) { clickCount = 0; }
         clickCount++;
         lastClickTime = currentTime;
 
@@ -120,9 +120,11 @@
         cList.innerHTML = "";
         comments.forEach((c, i) => {
             cList.innerHTML += `<div class="comment-card">
-                <strong>${c.name}:</strong> ${c.text}<br>
-                <button class="reaction-btn" onclick="react(${i}, 'like')">👍 ${c.likes}</button>
-                <button class="reaction-btn" onclick="react(${i}, 'dislike')">👎 ${c.dislikes}</button>
+                <strong>${c.name}:</strong> ${c.text}
+                <div class="reactions">
+                    <button class="reaction-btn" onclick="react(${i}, 'like')">👍 ${c.likes}</button>
+                    <button class="reaction-btn" onclick="react(${i}, 'dislike')">👎 ${c.dislikes}</button>
+                </div>
             </div>`;
         });
     }
