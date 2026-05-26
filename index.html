@@ -8,18 +8,18 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; }
         
-        /* 🖼️ भैया, यहाँ गिटहब का एकदम डायरेक्ट पक्का रास्ता सेट कर दिया है */
+        /* 🖼️ यहाँ नाम को शुद्ध cjp-bg.jpg कर दिया है */
         body { 
             font-family: 'Arial', sans-serif; 
             margin: 0; 
             padding: 0; 
-            background: #0d233a url('cjp-bg.jpg.jpg') no-repeat center center fixed !important; 
+            background: #0d233a url('cjp-bg.jpg') no-repeat center center fixed !important; 
             background-size: cover !important; 
             color: #111; 
         }
         
         header { 
-            background: linear-gradient(135deg, rgba(13, 35, 58, 0.95) 0%, rgba(6, 19, 36, 0.95) 100%); 
+            background: linear-gradient(135deg, rgba(13, 35, 58, 0.9) 0%, rgba(6, 19, 36, 0.9) 100%); 
             color: white; 
             padding: 40px 20px; 
             text-align: center; 
@@ -43,7 +43,7 @@
         
         .container { max-width: 750px; margin: 30px auto; padding: 10px; }
         
-        /* ✨ ग्लॉसी पैनल (सिर्फ 20% ब्लर) ताकि पीछे की फोटो साफ़ दिखे */
+        /* ✨ 20% ग्लॉसी पैनल (4px blur) */
         .counter-box, .section { 
             background: rgba(255, 255, 255, 0.65); 
             backdrop-filter: blur(4px) !important; 
@@ -93,7 +93,7 @@
         <button onclick="submitComment()" style="background: #28a745;">सुझाव भेजें</button>
         <br><br>
         <div id="commentsList">
-            <div class="comment-card"><strong>दीपक चौरसिया (गाडरवारा):</strong> पार्टी का काम बहुत अच्छा चल रहा है, नरसिंहपुर में इस बार बदलाव होगा!</div>
+            <div class="comment-card"><strong>दीपक चौरसिया (गाडरवारा):</strong> पार्टी का काम बहुत अच्छा चल रहा है!</div>
         </div>
     </div>
 
@@ -106,14 +106,13 @@
     </div>
 
     <div class="section admin-zone" id="adminPanel">
-        <h3 style="color: #d9534f;">🔐 बड़े भैया का स्पेशल收藏 पैनल</h3>
+        <h3 style="color: #d9534f;">🔐 बड़े भैया का स्पेशल कंट्रोल पैनल</h3>
         <button onclick="hideAdminPanel()" style="background:#6c757d;">पैनल छुपाएं 🔒</button>
     </div>
 </div>
 
 <script>
     let count = 2;
-
     function handleHeaderClick() {
         let clicks = sessionStorage.getItem('clicks') || 0;
         clicks++;
@@ -129,9 +128,8 @@
             }
         }
     }
-
     function hideAdminPanel() { document.getElementById("adminPanel").style.display = "none"; }
-
+    
     function registerDirectly() {
         let name = document.getElementById("memberName").value.trim();
         let village = document.getElementById("memberVillage").value.trim();
@@ -143,26 +141,21 @@
         newItem.className = "item-card";
         newItem.innerHTML = `<strong>${name} (${village}):</strong> सदस्य बने।`;
         list.insertBefore(newItem, list.firstChild);
-        
         document.getElementById("memberName").value = "";
         document.getElementById("memberVillage").value = "";
-        alert("बधाई हो भैया! डिजिटल सदस्यता पक्की हो गई!");
     }
 
     function submitComment() {
         let cName = document.getElementById("commenterName").value.trim();
         let cText = document.getElementById("commentText").value.trim();
         if (cName === "" || cText === "") { alert("भैया, नाम और सुझाव दोनों भरिए!"); return; }
-        
         let cList = document.getElementById("commentsList");
         let newComment = document.createElement("div");
         newComment.className = "comment-card";
         newComment.innerHTML = `<strong>${cName}:</strong> ${cText}`;
         cList.insertBefore(newComment, cList.firstChild);
-        
         document.getElementById("commenterName").value = "";
         document.getElementById("commentText").value = "";
-        alert("आपका बहुमूल्य सुझाव जोड़ दिया गया है, भैया!");
     }
 </script>
 </body>
