@@ -8,17 +8,18 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; }
         
+        /* 🖼️ भैया, यहाँ गिटहब का एकदम डायरेक्ट पक्का रास्ता सेट कर दिया है */
         body { 
             font-family: 'Arial', sans-serif; 
             margin: 0; 
             padding: 0; 
-            background: url('https://images2.imgbox.com/60/a6/6qY0mZ1l_o.jpg') no-repeat center center fixed !important; 
+            background: #0d233a url('cjp-bg.jpg.jpg') no-repeat center center fixed !important; 
             background-size: cover !important; 
             color: #111; 
         }
         
         header { 
-            background: linear-gradient(135deg, rgba(13, 35, 58, 0.9) 0%, rgba(6, 19, 36, 0.9) 100%); 
+            background: linear-gradient(135deg, rgba(13, 35, 58, 0.95) 0%, rgba(6, 19, 36, 0.95) 100%); 
             color: white; 
             padding: 40px 20px; 
             text-align: center; 
@@ -42,7 +43,7 @@
         
         .container { max-width: 750px; margin: 30px auto; padding: 10px; }
         
-        /* ✨ यहाँ ब्लर को घटाकर सिर्फ 20% (4px) कर दिया है ताकि पीछे का सब दिखे */
+        /* ✨ ग्लॉसी पैनल (सिर्फ 20% ब्लर) ताकि पीछे की फोटो साफ़ दिखे */
         .counter-box, .section { 
             background: rgba(255, 255, 255, 0.65); 
             backdrop-filter: blur(4px) !important; 
@@ -68,7 +69,7 @@
 <body>
 
 <header id="mainHeader" onclick="handleHeaderClick()">
-    <img id="partyLogo" class="header-logo" src="./cjp-leader.jpg" alt="CJP Logo">
+    <img id="partyLogo" class="header-logo" src="cjp-leader.jpg" alt="CJP Logo">
     <h1>कॉकरोच जनता पार्टी (CJP)</h1>
     <p>आधिकारिक जिला कार्यालय: नरसिंहपुर (म.प्र.)</p>
 </header>
@@ -76,7 +77,6 @@
 <div class="container">
     <div class="counter-box">कुल सक्रिय सदस्य: <span class="counter-number" id="memberCount">2</span></div>
 
-    <!-- 📝 डायरेक्ट सदस्यता फॉर्म -->
     <div class="section">
         <h3>📋 सदस्यता फॉर्म</h3>
         <input type="text" id="memberName" placeholder="आपका नाम">
@@ -86,7 +86,6 @@
         <button onclick="registerDirectly()">सदस्यता लें (Direct Register)</button>
     </div>
 
-    <!-- 💬 कम्युनिटी कमेंट और सुझाव सेक्शन (वापस आ गया!) -->
     <div class="section">
         <h3>💬 जनता के सुझाव एवं कमेंट्स</h3>
         <input type="text" id="commenterName" placeholder="आपका नाम">
@@ -106,9 +105,8 @@
         </div>
     </div>
 
-    <!-- 🔐 एडमिन जोन -->
     <div class="section admin-zone" id="adminPanel">
-        <h3 style="color: #d9534f;">🔐 बड़े भैया का स्पेशल कंट्रोल पैनल</h3>
+        <h3 style="color: #d9534f;">🔐 बड़े भैया का स्पेशल收藏 पैनल</h3>
         <button onclick="hideAdminPanel()" style="background:#6c757d;">पैनल छुपाएं 🔒</button>
     </div>
 </div>
@@ -116,7 +114,6 @@
 <script>
     let count = 2;
 
-    // 3 बार क्लिक करने पर एडमिन पैनल
     function handleHeaderClick() {
         let clicks = sessionStorage.getItem('clicks') || 0;
         clicks++;
@@ -135,7 +132,6 @@
 
     function hideAdminPanel() { document.getElementById("adminPanel").style.display = "none"; }
 
-    // सदस्य जोड़ने का फंक्शन
     function registerDirectly() {
         let name = document.getElementById("memberName").value.trim();
         let village = document.getElementById("memberVillage").value.trim();
@@ -153,7 +149,6 @@
         alert("बधाई हो भैया! डिजिटल सदस्यता पक्की हो गई!");
     }
 
-    // कमेंट सबमिट करने का फंक्शन
     function submitComment() {
         let cName = document.getElementById("commenterName").value.trim();
         let cText = document.getElementById("commentText").value.trim();
