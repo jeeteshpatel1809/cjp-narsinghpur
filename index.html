@@ -10,28 +10,55 @@
         
         body { 
             font-family: 'Arial', sans-serif; 
-            margin: 0; padding: 0; 
+            margin: 0; 
+            padding: 0; 
             background: #0d233a url('cjp-bg.jpg') no-repeat center center fixed !important; 
             background-size: cover !important; 
             color: #fff; 
         }
         
-        header { background: rgba(0, 0, 0, 0.2); color: white; padding: 40px 20px; text-align: center; border-bottom: 2px solid rgba(255, 204, 0, 0.5); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 15px; }
-        .header-logo { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #ffcc00; object-fit: cover; background-color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        header { 
+            background: rgba(0, 0, 0, 0.2); 
+            color: white; 
+            padding: 40px 20px; 
+            text-align: center; 
+            border-bottom: 2px solid rgba(255, 204, 0, 0.5); 
+            cursor: pointer; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .header-logo { 
+            width: 100px; 
+            height: 100px; 
+            border-radius: 50%; 
+            border: 3px solid #ffcc00; 
+            object-fit: cover; 
+            background-color: #fff; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        
         .container { max-width: 750px; margin: 30px auto; padding: 10px; }
         
-        /* 0.05 ओपेसिटी के साथ और अधिक पारदर्शी पैनल */
+        /* ✨ पैनल को और अधिक पारदर्शी बनाया */
         .counter-box, .section { 
             background: rgba(255, 255, 255, 0.05) !important; 
             backdrop-filter: blur(12px) !important; 
-            border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1); 
-            margin-bottom: 25px; padding: 25px; color: #fff;
+            -webkit-backdrop-filter: blur(12px) !important; 
+            border-radius: 15px; 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            margin-bottom: 25px; 
+            padding: 25px; 
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
         
         .counter-number { color: #ffcc00; font-size: 35px; font-weight: 900; }
         
-        /* लेबल को सफेद रंग दिया */
-        .field-label { color: #ffffff; font-weight: bold; margin-bottom: 5px; display: block; }
+        /* सफेद लेबल के लिए स्टाइल */
+        .input-label { color: #ffffff; font-weight: bold; display: block; margin-top: 10px; margin-bottom: 5px; }
         
         input[type="text"], input[type="tel"], textarea { 
             width: 100%; padding: 12px; margin: 8px 0 18px 0; 
@@ -43,7 +70,13 @@
         
         textarea { resize: vertical; height: 100px; }
         
-        button { background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255,255,255,0.4); padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 8px; width: 100%; }
+        button { 
+            background: rgba(255, 255, 255, 0.2); 
+            color: white; 
+            border: 1px solid rgba(255,255,255,0.4); 
+            padding: 14px; font-size: 16px; font-weight: bold; 
+            cursor: pointer; border-radius: 8px; width: 100%; transition: 0.3s; 
+        }
         button:hover { background: rgba(255, 255, 255, 0.4); }
         
         .item-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #ffcc00; }
@@ -64,23 +97,22 @@
 
     <div class="section">
         <h3>📋 सदस्यता फॉर्म</h3>
-        <label class="field-label">आपका नाम</label>
-        <input type="text" id="memberName" placeholder="नाम लिखें">
-        <label class="field-label">गाँव/शहर</label>
-        <input type="text" id="memberVillage" placeholder="गाँव/शहर का नाम">
-        <label class="field-label">तहसील</label>
+        <label class="input-label">आपका नाम</label>
+        <input type="text" id="memberName" placeholder="आपका नाम">
+        <label class="input-label">गाँव/शहर</label>
+        <input type="text" id="memberVillage" placeholder="गाँव/शहर">
+        <label class="input-label">तहसील</label>
         <input type="text" id="memberTehsil" placeholder="तहसील">
-        <label class="field-label">मोबाइल नंबर</label>
-        <input type="tel" id="memberPhone" placeholder="मोबाइल नंबर लिखें">
+        <label class="input-label">मोबाइल नंबर</label>
+        <input type="tel" id="memberPhone" placeholder="मोबाइल नंबर">
         <button onclick="registerDirectly()">सदस्यता लें</button>
     </div>
 
-    <!-- बाकी कोड वैसा ही है जैसा आपने दिया था -->
     <div class="section">
         <h3>💬 जनता के सुझाव एवं कमेंट्स</h3>
-        <label class="field-label">आपका नाम</label>
-        <input type="text" id="commenterName" placeholder="नाम लिखें">
-        <label class="field-label">सुझाव</label>
+        <label class="input-label">आपका नाम</label>
+        <input type="text" id="commenterName" placeholder="आपका नाम">
+        <label class="input-label">सुझाव</label>
         <textarea id="commentText" placeholder="अपना संदेश यहाँ लिखें..."></textarea>
         <button onclick="submitComment()">सुझाव भेजें</button>
         <br><br>
@@ -88,7 +120,7 @@
             <div class="comment-card"><strong>दीपक चौरसिया:</strong> पार्टी का काम बहुत अच्छा चल रहा है!</div>
         </div>
     </div>
-    
+
     <div class="section">
         <h3>👥 नए जुड़े सदस्य</h3>
         <div id="membersList">
