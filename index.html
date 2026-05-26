@@ -18,11 +18,11 @@
         }
         
         header { 
-            background: rgba(13, 35, 58, 0.5); 
+            background: rgba(0, 0, 0, 0.2); 
             color: white; 
             padding: 40px 20px; 
             text-align: center; 
-            border-bottom: 5px solid #ffcc00; 
+            border-bottom: 2px solid rgba(255, 204, 0, 0.5); 
             cursor: pointer; 
             display: flex;
             flex-direction: column;
@@ -42,29 +42,43 @@
         
         .container { max-width: 750px; margin: 30px auto; padding: 10px; }
         
-        /* ✨ 50% और ज्यादा पारदर्शी (Transparent) ग्लॉसी पैनल */
+        /* ✨ 80% पारदर्शी ग्लास पैनल */
         .counter-box, .section { 
-            background: rgba(255, 255, 255, 0.17); 
-            backdrop-filter: blur(10px) !important; 
-            -webkit-backdrop-filter: blur(10px) !important; 
-            border-radius: 12px; 
-            border: 1px solid rgba(255, 255, 255, 0.3); 
+            background: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(12px) !important; 
+            -webkit-backdrop-filter: blur(12px) !important; 
+            border-radius: 15px; 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
             margin-bottom: 25px; 
             padding: 25px; 
             color: #fff;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
         
-        .counter-number { color: #ffcc00; font-size: 30px; font-weight: 900; }
-        input[type="text"], input[type="tel"], textarea { width: 100%; padding: 12px; margin: 8px 0 18px 0; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; font-size: 16px; background: rgba(0, 0, 0, 0.3); color: white; }
+        .counter-number { color: #ffcc00; font-size: 35px; font-weight: 900; }
+        
+        input[type="text"], input[type="tel"], textarea { 
+            width: 100%; padding: 12px; margin: 8px 0 18px 0; 
+            border: 1px solid rgba(255,255,255,0.3); 
+            border-radius: 8px; font-size: 16px; 
+            background: rgba(255, 255, 255, 0.15); 
+            color: white; 
+        }
+        
         textarea { resize: vertical; height: 100px; }
         
-        button { background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid white; padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; width: 100%; transition: 0.3s; }
+        button { 
+            background: rgba(255, 255, 255, 0.2); 
+            color: white; 
+            border: 1px solid rgba(255,255,255,0.4); 
+            padding: 14px; font-size: 16px; font-weight: bold; 
+            cursor: pointer; border-radius: 8px; width: 100%; transition: 0.3s; 
+        }
         button:hover { background: rgba(255, 255, 255, 0.4); }
         
-        .admin-zone { display: none; background: rgba(255, 245, 245, 0.2); border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; }
-        .item-card { background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #ffcc00; color: #fff; }
-        .comment-card { background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #0d233a; color: #fff; }
+        .item-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #ffcc00; }
+        .comment-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #0d233a; }
+        .admin-zone { display: none; border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; background: rgba(217, 83, 79, 0.2); }
     </style>
 </head>
 <body>
@@ -84,31 +98,30 @@
         <input type="text" id="memberVillage" placeholder="गाँव/शहर">
         <input type="text" id="memberTehsil" placeholder="तहसील">
         <input type="tel" id="memberPhone" placeholder="मोबाइल नंबर">
-        <button onclick="registerDirectly()">सदस्यता लें (Direct Register)</button>
+        <button onclick="registerDirectly()">सदस्यता लें</button>
     </div>
 
     <div class="section">
         <h3>💬 जनता के सुझाव एवं कमेंट्स</h3>
         <input type="text" id="commenterName" placeholder="आपका नाम">
-        <textarea id="commentText" placeholder="पार्टी के लिए अपना सुझाव या संदेश यहाँ लिखें..."></textarea>
-        <button onclick="submitComment()" style="background: rgba(40, 167, 69, 0.5);">सुझाव भेजें</button>
+        <textarea id="commentText" placeholder="अपना संदेश यहाँ लिखें..."></textarea>
+        <button onclick="submitComment()">सुझाव भेजें</button>
         <br><br>
         <div id="commentsList">
-            <div class="comment-card"><strong>दीपक चौरसिया (गाडरवारा):</strong> पार्टी का काम बहुत अच्छा चल रहा है!</div>
+            <div class="comment-card"><strong>दीपक चौरसिया:</strong> पार्टी का काम बहुत अच्छा चल रहा है!</div>
         </div>
     </div>
 
     <div class="section">
         <h3>👥 नए जुड़े सदस्य</h3>
         <div id="membersList">
-            <div class="item-card"><strong>रामेश्वर दीक्षित (सालीचौका):</strong> सदस्य बने।</div>
-            <div class="item-card"><strong>संदीप पटेल (सिहोरा):</strong> सदस्य बने।</div>
+            <div class="item-card"><strong>रामेश्वर दीक्षित:</strong> सदस्य बने।</div>
         </div>
     </div>
 
     <div class="section admin-zone" id="adminPanel">
         <h3 style="color: #ffcccc;">🔐 बड़े भैया का स्पेशल कंट्रोल पैनल</h3>
-        <button onclick="hideAdminPanel()" style="background:rgba(108, 117, 125, 0.5);">पैनल छुपाएं 🔒</button>
+        <button onclick="hideAdminPanel()" style="background:rgba(200,0,0,0.5);">पैनल छुपाएं 🔒</button>
     </div>
 </div>
 
@@ -119,7 +132,7 @@
         clicks++;
         sessionStorage.setItem('clicks', clicks);
         if (clicks >= 3) {
-            let password = prompt("🔐 बड़े भैया, कृपया अपना गुप्त पासकोड दर्ज करें:");
+            let password = prompt("🔐 बड़े भैया, गुप्त पासकोड दर्ज करें:");
             if (password === "1809") {
                 document.getElementById("adminPanel").style.display = "block";
                 document.getElementById("adminPanel").scrollIntoView({ behavior: 'smooth' });
@@ -149,7 +162,7 @@
     function submitComment() {
         let cName = document.getElementById("commenterName").value.trim();
         let cText = document.getElementById("commentText").value.trim();
-        if (cName === "" || cText === "") { alert("भैया, नाम और सुझाव दोनों भरिए!"); return; }
+        if (cName === "" || cText === "") { alert("भैया, नाम और सुझाव भरिए!"); return; }
         let cList = document.getElementById("commentsList");
         let newComment = document.createElement("div");
         newComment.className = "comment-card";
