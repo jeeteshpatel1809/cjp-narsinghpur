@@ -8,12 +8,12 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; }
         
-        /* 🖼️ यहाँ आपकी असली बैकग्राउंड फोटो cjp-bg.jpg को सेट कर दिया है */
+        /* 🖼️ यहाँ डॉट-स्लैश (./) लगाकर बैकग्राउंड फोटो का पक्का रास्ता दे दिया है */
         body { 
             font-family: 'Arial', sans-serif; 
             margin: 0; 
             padding: 0; 
-            background: url('cjp-bg.jpg') no-repeat center center fixed; 
+            background: url('./cjp-bg.jpg') no-repeat center center fixed; 
             background-size: cover; 
             color: #111; 
         }
@@ -32,7 +32,6 @@
             gap: 15px;
         }
         
-        /* 🗳️ चुनाव चिन्ह (DP) की स्टाइल */
         .header-logo { 
             width: 100px; 
             height: 100px; 
@@ -46,19 +45,17 @@
         .container { max-width: 750px; margin: 30px auto; padding: 10px; }
         .counter-box, .section { background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.5); margin-bottom: 25px; padding: 25px; }
         .counter-number { color: #cc0000; font-size: 30px; font-weight: 900; }
-        input[type="text"], input[type="tel"], textarea { width: 100%; padding: 12px; margin: 8px 0 18px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
+        input[type="text"], input[type="tel"] { width: 100%; padding: 12px; margin: 8px 0 18px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
         button { background: linear-gradient(135deg, #0d233a 0%, #1a3a5c 100%); color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; width: 100%; }
-        button:hover { background: linear-gradient(135deg, #1a3a5c 0%, #254f7c 100%); }
         .admin-zone { display: none; background: #fff5f5; border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; }
-        .item-card { background: rgba(255, 255, 255, 0.8); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #ffcc00; position: relative; }
+        .item-card { background: rgba(255, 255, 255, 0.8); padding: 15px; border-radius: 6px; margin-bottom: 10px; border-left: 5px solid #ffcc00; }
     </style>
 </head>
 <body>
 
-<!-- 📱 हेडर पट्टी: इस पर कहीं भी जल्दी-जल्दी 3 बार टच करने से सीक्रेट पैनल खुलेगा -->
 <header id="mainHeader" onclick="handleHeaderClick()">
-    <!-- 🪲 यहाँ आपकी चुनाव चिन्ह वाली फोटो cjp-leader.jpg को गिटहब से सीधे जोड़ दिया है -->
-    <img id="partyLogo" class="header-logo" src="cjp-leader.jpg" alt="CJP Logo">
+    <!-- 🪲 यहाँ भी चुनाव चिन्ह के लिए (./) लगा दिया है ताकि गिटहब सीधे इसे उठा ले -->
+    <img id="partyLogo" class="header-logo" src="./cjp-leader.jpg" alt="CJP Logo">
     <h1>कॉकरोच जनता पार्टी (CJP)</h1>
     <p>आधिकारिक जिला कार्यालय: नरसिंहपुर (म.प्र.)</p>
 </header>
@@ -67,7 +64,6 @@
     <div class="headline-box" style="background: #ffcc00; color: #0d233a; text-align: center; padding: 10px; font-weight: bold; border-radius: 6px; margin-bottom: 20px;">"अब वक़्त है बदलाव का"</div>
     <div class="counter-box">कुल सक्रिय सदस्य: <span class="counter-number" id="memberCount">2</span></div>
 
-    <!-- 📝 डायरेक्ट सदस्यता फॉर्म -->
     <div class="section">
         <h3>📋 सदस्यता फॉर्म</h3>
         <label>आपका नाम:</label>
@@ -85,15 +81,14 @@
     <div class="section">
         <h3>👥 नए जुड़े सदस्य</h3>
         <div id="membersList">
-            <div class="item-card"><strong>रामेश्वर दीक्षित (सालीचौका):</strong> सदस्य बने।</div>
-            <div class="item-card"><strong>sandeep patel (सिहोरा):</strong> सदस्य बने।</div>
+            <div class="item-card" style="padding: 15px;"><strong>रामेश्वर दीक्षित (सालीचौका):</strong> सदस्य बने।</div>
+            <div class="item-card" style="padding: 15px;"><strong>संदीप पटेल (सिहोरा):</strong> सदस्य बने।</div>
         </div>
     </div>
 
-    <!-- 🔐 सीक्रेट एडमिन जोन -->
     <div class="section admin-zone" id="adminPanel">
         <h3 style="color: #d9534f;">🔐 बड़े भैया का स्पेशल कंट्रोल पैनल</h3>
-        <p style="font-size: 14px; color: #555;">भैया, आपकी दोनों फ़ोटो (cjp-bg.jpg और cjp-leader.jpg) गिटहब से एकदम सही सेट हो चुकी हैं!</p>
+        <p style="font-size: 14px; color: #555;">फ़ोटो का रास्ता अब परमानेंट सेट हो चुका है!</p>
         <button onclick="hideAdminPanel()" style="background:#6c757d;">पैनल छुपाएं 🔒</button>
     </div>
 </div>
@@ -103,7 +98,6 @@
     let clickCount = 0;
     let clickTimeout;
 
-    // 3 बार टच डिटेक्टर
     function handleHeaderClick() {
         clickCount++;
         clearTimeout(clickTimeout);
@@ -116,7 +110,7 @@
                 document.getElementById("adminPanel").scrollIntoView({ behavior: 'smooth' });
                 alert("प्रणाम भैया! सीक्रेट पैनल खुल गया है।");
             } else if (password !== null && password !== "") {
-                alert("गलत पासकोड! आप बड़े भैया नहीं हैं।");
+                alert("गलत पासकोड!");
             }
         }
     }
@@ -126,7 +120,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // डायरेक्ट रजिस्ट्रेशन फंक्शन
     function registerDirectly() {
         let name = document.getElementById("memberName").value.trim();
         let village = document.getElementById("memberVillage").value.trim();
@@ -144,6 +137,7 @@
         let list = document.getElementById("membersList");
         let newItem = document.createElement("div");
         newItem.className = "item-card";
+        newItem.style.padding = "15px";
         newItem.innerHTML = `<strong>${name} (${village}, ${tehsil}):</strong> सदस्य बने।`;
         list.insertBefore(newItem, list.firstChild);
 
