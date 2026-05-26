@@ -71,7 +71,14 @@
         .item-card { background: rgba(255, 255, 255, 0.75); padding: 15px; border-radius: 6px; margin-bottom: 15px; border-left: 5px solid #ffcc00; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.05); color: #000; }
         .action-btn { background: rgba(255, 255, 255, 0.8); border: 1px solid #cbd5e1; color: #0d233a; padding: 6px 12px; font-size: 13px; margin-right: 5px; margin-top: 10px; cursor: pointer; border-radius: 4px; width: auto; display: inline-block; }
         .delete-btn { background: linear-gradient(135deg, #d9534f 0%, #c9302c 100%); color: white; border: none; padding: 4px 10px; font-size: 13px; cursor: pointer; border-radius: 4px; position: absolute; top: 15px; right: 15px; width: auto; }
-        .admin-zone { background: linear-gradient(135deg, rgba(255, 245, 245, 0.6) 0%, rgba(255, 235, 235, 0.6) 100%); border: 2px dashed #d9534f; border-left: 6px solid #d9534f; }
+        
+        /* 🔒 शुरुआत में एडमिन पैनल को पूरी तरह छुपाने के लिए */
+        .admin-zone { 
+            background: linear-gradient(135deg, rgba(255, 245, 245, 0.6) 0%, rgba(255, 235, 235, 0.6) 100%); 
+            border: 2px dashed #d9534f; 
+            border-left: 6px solid #d9534f; 
+            display: none; 
+        }
     </style>
 </head>
 <body>
@@ -95,7 +102,6 @@
         <label><b>आपका पूरा नाम:</b></label>
         <input type="text" id="memberName" placeholder="उदा. जीतेश भैया">
 
-        <!-- 🏘️ यहाँ हमने ड्रॉपडाउन हटाकर सीधे नाम लिखने का विकल्प दे दिया है ताकि कोई भी गाँव न छूटे -->
         <label><b>अपने गाँव / ग्राम पंचायत / शहर का नाम लिखें:</b></label>
         <input type="text" id="memberVillage" placeholder="उदा. बरमान, सालीचौका, बचई, सिहोरा, वार्ड नं. 5">
         
@@ -143,10 +149,10 @@
         </div>
     </div>
 
-    <!-- 🔐 एडमिन जोन (कंट्रोल पैनल) -->
-    <div class="section admin-zone">
-        <h3 style="color: #d9534f;">🔐 बड़े भैया का स्पेशल कंट्रोल (Admin Panel)</h3>
-        <p style="font-size: 13px; color: #555;">[नोट: यहाँ के कंट्रोल्स केवल आपके लिए हैं, भैया]</p>
+    <!-- 🔐 एडमिन जोन (कंट्रोल पैनल) -> अब यह id="adminPanel" के साथ डिफ़ॉल्ट रूप से छुपा रहेगा -->
+    <div class="section admin-zone" id="adminPanel">
+        <h3 style="color: #d9534f;">🔐 बड़े भैया का स्पेशल控制 (Admin Panel)</h3>
+        <p style="font-size: 13px; color: #555;">[नोट: यह पैनल केवल 1809 टाइप करने पर ही खुलता है, छुपाने के लिए H दबाएं]</p>
         
         <label><b>🪲 हेडर की मुख्य फोटो/DP (चुनाव चिन्ह) बदलें:</b></label>
         <div class="upload-btn-wrapper">
@@ -174,7 +180,6 @@
 </div>
 
 <script>
-    // आपका असली Firebase कॉन्फ़िगरेशन
     const firebaseConfig = {
         apiKey: "AIzaSyDCEmlpahDF1157WoCL6DfDdq63W_zeFkw",
         authDomain: "cjp-52aeb.firebaseapp.com",
@@ -193,9 +198,40 @@
     let memCounter = 2;
     let confirmationResult = null; 
 
+    // 🔑 सीक्रेट पासकोड डिटेक्टर वेरिएबल
+    let inputBuffer = "";
+
     window.onload = function() {
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
             'size': 'invisible'
+        });
+
+        // 🥷 कीबोर्ड बटन दबाने की जासूसी करने वाला कोड
+        document.addEventListener('keydown', function(event) {
+            // अगर भैया 'h' या 'H' दबाते हैं तो पैनल तुरंत छुप जाएगा
+            if (event.key.toLowerCase() === 'h') {
+                document.getElementById("adminPanel").style.display = "none";
+                inputBuffer = "";
+                return;
+            }
+
+            // केवल नंबरों को बफ़र में जोड़ें
+            if (/[0-9]/.test(event.key)) {
+                inputBuffer += event.key;
+                
+                // केवल आखिरी 4 अंकों को ही याद रखना है
+                if (inputBuffer.length > 4) {
+                    inputBuffer = inputBuffer.slice(-4);
+                }
+
+                // अगर जादुई नंबर '1809' मैच हो गया, तो पैनल खोल दो!
+                if (inputBuffer === "1809") {
+                    document.getElementById("adminPanel").style.display = "block";
+                    document.getElementById("adminPanel").scrollIntoView({ behavior: 'smooth' });
+                    alert("प्रणाम भैया! आपका सीक्रेट कंट्रोल पैनल अनलॉक हो गया है।");
+                    inputBuffer = ""; // बफ़र रीसेट
+                }
+            }
         });
     };
 
@@ -210,7 +246,7 @@
             return;
         }
         if (!phone.startsWith("+91")) {
-            alert("कृपया मोबाइल नंबर के आगे भारतीय कंट्री कोड +91 ज़रूर लगाएं (जैसे: +9198XXXXXXXX)");
+            alert("कृपया मोबाइल नंबर के आगे भारतीय कंट्री कोड +91 ज़रूर लगाएं");
             return;
         }
 
@@ -261,7 +297,6 @@
             adminItem.innerHTML = `<span>${name} (${village})</span> <button class="delete-btn" style="top:2px; right:2px;" onclick="removeElement('${memId}', '${adminMemId}', true)">हटाएं ❌</button>`;
             adminList.insertBefore(adminItem, adminList.firstChild);
 
-            // फॉर्म रीसेट
             document.getElementById("memberName").value = "";
             document.getElementById("memberVillage").value = "";
             document.getElementById("memberTehsil").value = "";
@@ -285,7 +320,6 @@
         }
     }
 
-    // बाकी के फंक्शन्स पूर्ववत रहेंगे
     function changeBanner(event) {
         const file = event.target.files[0];
         if (file) {
