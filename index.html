@@ -1,117 +1,162 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>कॉकरोच जनता पार्टी - आधिकारिक जिला कार्यालय: नरसिंहपुर</title>
+    
     <style>
         *, *::before, *::after { box-sizing: border-box; }
         body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; background: #0d233a url('cjp-bg.jpg') no-repeat center center fixed !important; background-size: cover !important; color: #fff; }
         header { background: rgba(0, 0, 0, 0.2); color: white; padding: 40px 20px; text-align: center; border-bottom: 2px solid rgba(255, 204, 0, 0.5); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 15px; }
         .header-logo { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #ffcc00; object-fit: cover; background-color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         .container { max-width: 750px; margin: 30px auto; padding: 10px; }
+        
         .counter-box, .section { background: rgba(255, 255, 255, 0.05) !important; backdrop-filter: blur(20px) !important; -webkit-backdrop-filter: blur(20px) !important; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.2); margin-bottom: 25px; padding: 25px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
         .my-label { color: #ffffff; text-shadow: 1px 1px 2px #ff0000; font-weight: bold; display: block; margin-top: 10px; margin-bottom: 5px; }
         .counter-number { color: #ffcc00; font-size: 35px; font-weight: 900; }
         input[type="text"], input[type="tel"], textarea { width: 100%; padding: 12px; margin: 5px 0 15px 0; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; background: rgba(255, 255, 255, 0.15); color: white; }
+        
         button { background: #28a745 !important; color: white !important; border: 1px solid #1e7e34 !important; padding: 14px; font-weight: bold; cursor: pointer; border-radius: 8px; width: 100%; transition: 0.3s; }
         button:hover { background: #218838 !important; }
+        
         .item-card, .comment-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #ffcc00; }
         .admin-zone { display: none; border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; background: rgba(217, 83, 79, 0.2); margin-top: 20px; }
         .del-btn { background: #d9534f; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; margin-left: 10px; font-size: 12px; }
+        
+        /* रिएक्शन्स अब एक लाइन में */
         .reactions { margin-top: 10px; display: flex; gap: 10px; }
         .reaction-btn { background: rgba(255, 255, 255, 0.2) !important; border: 1px solid #fff !important; color: white !important; padding: 5px 15px !important; border-radius: 20px !important; cursor: pointer; width: auto !important; font-weight: bold; }
     </style>
 </head>
 <body onload="loadSavedData()">
+
 <header id="mainHeader" onclick="handleHeaderClick()">
     <img id="partyLogo" class="header-logo" src="cjp-leader.jpg" alt="CJP Logo">
     <h1>कॉकरोच जनता पार्टी (CJP)</h1>
     <p>आधिकारिक जिला कार्यालय: नरसिंहपुर (म.प्र.)</p>
 </header>
+
 <div class="container">
-    <div class="counter-box">कुल सक्रिय सदस्य: <span class="counter-number" id="memberCount">0</span></div>
+    <div class="counter-box">कुल सक्रिय सदस्य: <span class="counter-number" id="memberCount">2</span></div>
+
     <div class="section">
         <h3>📋 सदस्यता फॉर्म</h3>
-        <label class="my-label">आपका नाम</label><input type="text" id="memberName" placeholder="नाम लिखें">
-        <label class="my-label">गाँव/शहर</label><input type="text" id="memberVillage" placeholder="गाँव/शहर लिखें">
-        <label class="my-label">तहसील</label><input type="text" id="memberTehsil" placeholder="तहसील लिखें">
-        <label class="my-label">मोबाइल नंबर</label><input type="tel" id="memberPhone" placeholder="मोबाइल नंबर">
+        <label class="my-label">आपका नाम</label>
+        <input type="text" id="memberName" placeholder="नाम लिखें">
+        <label class="my-label">गाँव/शहर</label>
+        <input type="text" id="memberVillage" placeholder="गाँव/शहर लिखें">
+        <label class="my-label">तहसील</label>
+        <input type="text" id="memberTehsil" placeholder="तहसील लिखें">
+        <label class="my-label">मोबाइल नंबर</label>
+        <input type="tel" id="memberPhone" placeholder="मोबाइल नंबर">
         <button onclick="registerDirectly()">सदस्यता लें</button>
     </div>
+
     <div class="section">
         <h3>💬 जनता के सुझाव एवं कमेंट्स</h3>
-        <label class="my-label">आपका नाम</label><input type="text" id="commenterName" placeholder="नाम लिखें">
-        <label class="my-label">सुझाव</label><textarea id="commentText" placeholder="अपना संदेश यहाँ लिखें..."></textarea>
-        <button onclick="submitComment()">सुझाव भेजें</button><br><br>
+        <label class="my-label">आपका नाम</label>
+        <input type="text" id="commenterName" placeholder="नाम लिखें">
+        <label class="my-label">सुझाव</label>
+        <textarea id="commentText" placeholder="अपना संदेश यहाँ लिखें..."></textarea>
+        <button onclick="submitComment()">सुझाव भेजें</button>
+        <br><br>
         <div id="commentsList"></div>
     </div>
+
     <div class="section">
         <h3>👥 नए जुड़े सदस्य</h3>
         <div id="membersList"></div>
     </div>
+
     <div class="section admin-zone" id="adminPanel">
         <h3 style="color: #ffcccc;">🔐 बड़े भैया का स्पेशल कंट्रोल पैनल</h3>
-        <div id="adminControls"></div><br>
+        <div id="adminControls"></div>
+        <br>
         <button onclick="hideAdminPanel()" style="background:#dc3545 !important;">पैनल छुपाएं 🔒</button>
     </div>
 </div>
+
 <script>
+    // यहाँ अपनी Google Apps Script का URL डालें
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxws754qBalpRPlD3GmxHKohO4azOU_vG2qlgHiHoKeuXnTvKlErM15X3NfF_NaGgqJ/exec";
-    let members = [], comments = [], clickCount = 0, lastClickTime = 0;
+    
+    let members = [];
+    let comments = [];
+    let clickCount = 0;
+    let lastClickTime = 0;
+
     function handleHeaderClick() {
         let currentTime = new Date().getTime();
         if (currentTime - lastClickTime > 1000) { clickCount = 0; }
-        clickCount++; lastClickTime = currentTime;
+        clickCount++;
+        lastClickTime = currentTime;
+
         if (clickCount >= 5) {
             let password = prompt("🔐 बड़े भैया, गुप्त पासकोड दर्ज करें:");
-            if (password === "1809") { renderAdminPanel(); document.getElementById("adminPanel").style.display = "block"; }
+            if (password === "1809") {
+                renderAdminPanel();
+                document.getElementById("adminPanel").style.display = "block";
+            }
             clickCount = 0;
         }
     }
+
     function loadSavedData() {
-        fetch(SCRIPT_URL + "?action=getData").then(res => res.json()).then(data => {
-            members = data.members || []; comments = data.comments || [];
-            renderMembers(); renderComments();
+        fetch(SCRIPT_URL + "?action=getData")
+        .then(res => res.json())
+        .then(data => {
+            members = data.members || [];
+            comments = data.comments || [];
+            renderMembers();
+            renderComments();
         });
     }
+
     function renderMembers() {
-        let list = document.getElementById("membersList"); list.innerHTML = "";
-        members.forEach((m, i) => {
+        let list = document.getElementById("membersList");
+        list.innerHTML = "";
+        members.forEach(m => {
             list.innerHTML += `<div class="item-card"><strong>${m.name} (${m.village}):</strong> सदस्य बने।</div>`;
         });
         document.getElementById("memberCount").innerText = members.length;
     }
+
     function renderComments() {
-        let cList = document.getElementById("commentsList"); cList.innerHTML = "";
+        let cList = document.getElementById("commentsList");
+        cList.innerHTML = "";
         comments.forEach((c, i) => {
-            cList.innerHTML += `<div class="comment-card"><strong>${c.name}:</strong> ${c.text}
-                <div class="reactions"><button class="reaction-btn" onclick="react(${i}, 'like')">👍 ${c.likes || 0}</button>
-                <button class="reaction-btn" onclick="react(${i}, 'dislike')">👎 ${c.dislikes || 0}</button></div></div>`;
+            cList.innerHTML += `<div class="comment-card">
+                <strong>${c.name}:</strong> ${c.text}
+            </div>`;
         });
     }
-    function react(index, type) { alert("रिएक्शन दर्ज हुआ!"); }
+
     function renderAdminPanel() {
         let container = document.getElementById("adminControls");
-        container.innerHTML = "<h4>डेटा प्रबंधन:</h4>";
-        comments.forEach((c, i) => {
-            container.innerHTML += `<div class="item-card">${c.name}: ${c.text} <button class="del-btn" onclick="deleteItem('comment', ${i})">🗑️ हटाएँ</button></div>`;
-        });
+        container.innerHTML = "<h4>डेटा प्रबंधन:</h4><p>ऑनलाइन अपडेट के लिए शीट का उपयोग करें।</p>";
     }
-    function deleteItem(type, index) { fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify({action: 'delete', type, index})}).then(() => location.reload()); }
+
     function hideAdminPanel() { document.getElementById("adminPanel").style.display = "none"; }
+    
     function registerDirectly() {
         let name = document.getElementById("memberName").value.trim();
         let village = document.getElementById("memberVillage").value.trim();
         let phone = document.getElementById("memberPhone").value.trim();
         if (name === "" || village === "" || phone === "") { alert("भैया! जानकारी भरिए!"); return; }
-        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: 'addMember', name, village, phone}) }).then(() => { alert("सदस्यता सफल रही!"); location.reload(); });
+        
+        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: 'addMember', name, village, phone}) })
+        .then(() => { alert("सदस्यता सफल रही!"); location.reload(); });
     }
+
     function submitComment() {
         let cName = document.getElementById("commenterName").value.trim();
         let cText = document.getElementById("commentText").value.trim();
         if (cName === "" || cText === "") { alert("भैया, सुझाव भरिए!"); return; }
-        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: 'addComment', name: cName, text: cText}) }).then(() => { alert("सुझाव भेज दिया गया!"); location.reload(); });
+        
+        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: 'addComment', name: cName, text: cText}) })
+        .then(() => { alert("सुझाव भेज दिया गया!"); location.reload(); });
     }
 </script>
 </body>
