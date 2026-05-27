@@ -1,12 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>कॉकरोच जनता पार्टी - आधिकारिक जिला कार्यालय: नरसिंहपुर</title>
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     
     <style>
         *, *::before, *::after { box-sizing: border-box; }
@@ -27,6 +25,7 @@
         .admin-zone { display: none; border: 2px dashed #d9534f; padding: 20px; border-radius: 12px; background: rgba(217, 83, 79, 0.2); margin-top: 20px; }
         .del-btn { background: #d9534f; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; margin-left: 10px; font-size: 12px; }
         
+        /* रिएक्शन्स अब एक लाइन में */
         .reactions { margin-top: 10px; display: flex; gap: 10px; }
         .reaction-btn { background: rgba(255, 255, 255, 0.2) !important; border: 1px solid #fff !important; color: white !important; padding: 5px 15px !important; border-radius: 20px !important; cursor: pointer; width: auto !important; font-weight: bold; }
     </style>
@@ -52,14 +51,7 @@
         <input type="text" id="memberTehsil" placeholder="तहसील लिखें">
         <label class="my-label">मोबाइल नंबर</label>
         <input type="tel" id="memberPhone" placeholder="मोबाइल नंबर">
-        <!-- OTP सिस्टम के लिए -->
-        <div id="recaptcha-container"></div>
-        <button id="otpBtn" onclick="sendOTP()">OTP भेजें</button>
-        <div id="otpBox" style="display:none;">
-            <input type="text" id="otpInput" placeholder="OTP दर्ज करें">
-            <button onclick="verifyOTP()">सत्यापित करें</button>
-        </div>
-        <button id="regBtn" onclick="registerDirectly()" style="display:none;">सदस्यता लें</button>
+        <button onclick="registerDirectly()">सदस्यता लें</button>
     </div>
 
     <div class="section">
@@ -87,17 +79,6 @@
 </div>
 
 <script>
-    // Firebase Config
-    const firebaseConfig = { 
-        apiKey: "AIzaSyDCEmlpahDF1157WoCL6DfDdq63W_zeFkw", 
-        authDomain: "cjp-52aeb.firebaseapp.com", 
-        projectId: "cjp-52aeb", 
-        storageBucket: "cjp-52aeb.firebasestorage.app", 
-        messagingSenderId: "350812300144", 
-        appId: "1:350812300144:web:9d69f01f814abb186765b5" 
-    };
-    firebase.initializeApp(firebaseConfig);
-
     let members = JSON.parse(localStorage.getItem('cjp_members')) || [{name: "रामेश्वर दीक्षित", village: "नरसिंहपुर", phone: "9999999999"}];
     let comments = JSON.parse(localStorage.getItem('cjp_comments')) || [{name: "दीपक चौरसिया", text: "पार्टी का काम बहुत अच्छा चल रहा है!", likes: 0, dislikes: 0}];
     let userVotes = JSON.parse(localStorage.getItem('cjp_userVotes')) || {};
@@ -121,22 +102,11 @@
         }
     }
 
-    function sendOTP() {
-        let phone = document.getElementById("memberPhone").value;
-        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
-        firebase.auth().signInWithPhoneNumber(phone, window.recaptchaVerifier)
-            .then((res) => { window.confirmationResult = res; alert("OTP भेजा गया!"); document.getElementById('otpBox').style.display = "block"; })
-            .catch((e) => alert(e.message));
+    function loadSavedData() {
+        renderMembers();
+        renderComments();
     }
 
-    function verifyOTP() {
-        let code = document.getElementById("otpInput").value;
-        window.confirmationResult.confirm(code)
-            .then(() => { alert("सत्यापित!"); document.getElementById('regBtn').style.display = "block"; })
-            .catch(() => alert("गलत OTP"));
-    }
-
-    function loadSavedData() { renderMembers(); renderComments(); }
     function renderMembers() {
         let list = document.getElementById("membersList");
         list.innerHTML = "";
@@ -162,17 +132,23 @@
 
     function react(i, type) {
         let currentVote = userVotes[i];
+        
+        // अगर पहले से वोट दिया है, तो उसे हटाओ (Toggle)
         if (currentVote === type) {
             if (type === 'like') comments[i].likes--;
             else comments[i].dislikes--;
             userVotes[i] = null;
-        } else {
+        } 
+        // अगर वोट बदल रहे हैं
+        else {
             if (currentVote === 'like') comments[i].likes--;
             if (currentVote === 'dislike') comments[i].dislikes--;
+            
             if (type === 'like') comments[i].likes++;
             else comments[i].dislikes++;
             userVotes[i] = type;
         }
+        
         localStorage.setItem('cjp_comments', JSON.stringify(comments));
         localStorage.setItem('cjp_userVotes', JSON.stringify(userVotes));
         renderComments();
@@ -184,6 +160,7 @@
         members.forEach((m, i) => {
             container.innerHTML += `<div class='item-card'>${m.name} (${m.phone}) <button class='del-btn' onclick="deleteMember(${i})">हटाएँ</button></div>`;
         });
+        
         container.innerHTML += "<h4>कमेंट हटाएँ:</h4>";
         comments.forEach((c, i) => {
             container.innerHTML += `<div class='comment-card'>${c.name}: ${c.text} <button class='del-btn' onclick="deleteComment(${i})">हटाएँ</button></div>`;
@@ -203,17 +180,26 @@
         members.push({name, village, phone});
         localStorage.setItem('cjp_members', JSON.stringify(members));
         renderMembers();
+        document.getElementById("memberName").value = "";
+        document.getElementById("memberVillage").value = "";
+        document.getElementById("memberPhone").value = "";
     }
 
     function submitComment() {
         let cName = document.getElementById("commenterName").value.trim();
         let cText = document.getElementById("commentText").value.trim();
+        
+        // यह रहा आपका सुरक्षा चेक, नाम सदस्य लिस्ट में होना चाहिए
         let isMember = members.find(m => m.name === cName);
+        
         if (cName === "" || cText === "") { alert("भैया, सुझाव भरिए!"); return; }
-        if (!isMember) { alert("❌ केवल पार्टी के सदस्य ही कमेंट कर सकते हैं।"); return; }
+        if (!isMember) { alert("❌ केवल पार्टी के सदस्य ही कमेंट कर सकते हैं। पहले सदस्यता लें!"); return; }
+        
         comments.push({name: cName, text: cText, likes: 0, dislikes: 0});
         localStorage.setItem('cjp_comments', JSON.stringify(comments));
         renderComments();
+        document.getElementById("commenterName").value = "";
+        document.getElementById("commentText").value = "";
     }
 </script>
 </body>
