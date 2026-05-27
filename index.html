@@ -87,8 +87,15 @@
 </div>
 
 <script>
-    // Firebase Config (यहाँ अपनी Details भरें)
-    const firebaseConfig = { apiKey: "API_KEY", authDomain: "ID.firebaseapp.com", projectId: "ID", storageBucket: "ID.appspot.com", messagingSenderId: "ID", appId: "ID" };
+    // Firebase Config
+    const firebaseConfig = { 
+        apiKey: "AIzaSyDCEmlpahDF1157WoCL6DfDdq63W_zeFkw", 
+        authDomain: "cjp-52aeb.firebaseapp.com", 
+        projectId: "cjp-52aeb", 
+        storageBucket: "cjp-52aeb.firebasestorage.app", 
+        messagingSenderId: "350812300144", 
+        appId: "1:350812300144:web:9d69f01f814abb186765b5" 
+    };
     firebase.initializeApp(firebaseConfig);
 
     let members = JSON.parse(localStorage.getItem('cjp_members')) || [{name: "रामेश्वर दीक्षित", village: "नरसिंहपुर", phone: "9999999999"}];
