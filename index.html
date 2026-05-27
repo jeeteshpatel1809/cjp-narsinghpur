@@ -32,7 +32,7 @@
 </header>
 
 <div class="container">
-    <div class="counter-box">कुल सक्रिय सदस्य: <span class="counter-number" id="memberCount">2</span></div>
+    <div class="counter-box">कुल सक्रिय सदस्य: <span class="counter-number" id="memberCount">0</span></div>
     <div class="section">
         <h3>📋 सदस्यता फॉर्म</h3>
         <label class="my-label">आपका नाम</label> <input type="text" id="memberName" placeholder="नाम लिखें">
@@ -46,6 +46,7 @@
         <label class="my-label">आपका नाम</label> <input type="text" id="commenterName" placeholder="नाम लिखें">
         <label class="my-label">सुझाव</label> <textarea id="commentText" placeholder="अपना संदेश यहाँ लिखें..."></textarea>
         <button onclick="submitComment()">सुझाव भेजें</button>
+        <br><br>
         <div id="commentsList"></div>
     </div>
     <div class="section">
@@ -55,61 +56,76 @@
     <div class="section admin-zone" id="adminPanel">
         <h3 style="color: #ffcccc;">🔐 बड़े भैया का स्पेशल कंट्रोल पैनल</h3>
         <div id="adminControls"></div>
-        <button onclick="hideAdminPanel()" style="background:#dc3545 !important;">पैनल छुपाएं 🔒</button>
+        <br> <button onclick="hideAdminPanel()" style="background:#dc3545 !important;">पैनल छुपाएं 🔒</button>
     </div>
 </div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzmGDrxtGBRcofSHyoHbPyX3PCN_Fua8KzSC6PDOrfhKeppk9cnzZHJvBMphaGKyLFD/exec";
-    
-    let members = JSON.parse(localStorage.getItem('cjp_members')) || [{name: "रामेश्वर दीक्षित", village: "नरसिंहपुर", phone: "9999999999"}];
-    let comments = JSON.parse(localStorage.getItem('cjp_comments')) || [{name: "दीपक चौरसिया", text: "पार्टी का काम बहुत अच्छा चल रहा है!", likes: 0, dislikes: 0}];
+    let members = [];
+    let comments = [];
     let userVotes = JSON.parse(localStorage.getItem('cjp_userVotes')) || {};
 
-    // --- सारे पुराने फंक्शन्स ---
-    function handleHeaderClick() { /* आपका original कोड */ }
-    function loadSavedData() { renderMembers(); renderComments(); }
-    function renderMembers() { 
-        let list = document.getElementById("membersList"); list.innerHTML = "";
+    // --- डेटा लाने वाला नया फंक्शन (Google Sheet से) ---
+    function loadSavedData() {
+        fetch(SCRIPT_URL + "?action=getData")
+            .then(res => res.json())
+            .then(data => {
+                members = data.members;
+                comments = data.comments;
+                renderMembers();
+                renderComments();
+            })
+            .catch(err => {
+                console.log("Sheet से डेटा नहीं मिला, लोकल डेटा लोड हो रहा है...");
+                members = JSON.parse(localStorage.getItem('cjp_members')) || [];
+                comments = JSON.parse(localStorage.getItem('cjp_comments')) || [];
+                renderMembers();
+                renderComments();
+            });
+    }
+
+    // --- बाकी पुराने फंक्शन्स ---
+    function renderMembers() {
+        let list = document.getElementById("membersList");
+        list.innerHTML = "";
         members.forEach(m => { list.innerHTML += `<div class="item-card"><strong>${m.name} (${m.village}):</strong> सदस्य बने।</div>`; });
         document.getElementById("memberCount").innerText = members.length;
     }
-    function renderComments() { 
-        let cList = document.getElementById("commentsList"); cList.innerHTML = "";
-        comments.forEach((c, i) => { cList.innerHTML += `<div class="comment-card"><strong>${c.name}:</strong> ${c.text} <div class="reactions"><button class="reaction-btn" onclick="react(${i}, 'like')">👍 ${c.likes}</button> <button class="reaction-btn" onclick="react(${i}, 'dislike')">👎 ${c.dislikes}</button></div></div>`; });
+
+    function renderComments() {
+        let cList = document.getElementById("commentsList");
+        cList.innerHTML = "";
+        comments.forEach((c, i) => {
+            cList.innerHTML += `<div class="comment-card"><strong>${c.name}:</strong> ${c.text} 
+                <div class="reactions"><button class="reaction-btn">👍 ${c.likes || 0}</button> <button class="reaction-btn">👎 ${c.dislikes || 0}</button></div>
+            </div>`;
+        });
     }
-    
+
     function registerDirectly() {
         let name = document.getElementById("memberName").value.trim();
         let village = document.getElementById("memberVillage").value.trim();
         let phone = document.getElementById("memberPhone").value.trim();
         if (name === "" || village === "" || phone === "") { alert("भैया! जानकारी भरिए!"); return; }
         
-        // Local update
-        members.push({name, village, phone});
-        localStorage.setItem('cjp_members', JSON.stringify(members));
-        renderMembers();
-        
-        // Online push
-        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: 'addMember', name, village, phone}) });
-        alert("सदस्यता सफल रही!");
+        // डेटा सीधे शीट में भेजें (POST)
+        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: 'addMember', name, village, phone}) })
+            .then(() => { alert("सदस्यता सफल रही!"); location.reload(); });
     }
 
     function submitComment() {
         let cName = document.getElementById("commenterName").value.trim();
         let cText = document.getElementById("commentText").value.trim();
-        if (!members.find(m => m.name === cName)) { alert("❌ केवल पार्टी के सदस्य ही कमेंट कर सकते हैं!"); return; }
+        if (cName === "" || cText === "") { alert("भैया, सुझाव भरिए!"); return; }
         
-        comments.push({name: cName, text: cText, likes: 0, dislikes: 0});
-        localStorage.setItem('cjp_comments', JSON.stringify(comments));
-        renderComments();
-        
-        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: 'addComment', name: cName, text: cText}) });
-        alert("सुझाव भेज दिया!");
+        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({action: 'addComment', name: cName, text: cText}) })
+            .then(() => { alert("सुझाव भेज दिया गया!"); location.reload(); });
     }
 
+    // एडमिन पैनल और अन्य फंक्शन्स यहाँ रखें...
+    function handleHeaderClick() { let p = prompt("पासकोड:"); if(p==="1809") document.getElementById("adminPanel").style.display="block"; }
     function hideAdminPanel() { document.getElementById("adminPanel").style.display = "none"; }
-    // (बाकी react और delete वाले फंक्शन आप अपने ओरिजिनल कोड से यहाँ रख सकते हैं)
 </script>
 </body>
 </html>
