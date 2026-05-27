@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -79,6 +78,9 @@
 </div>
 
 <script>
+    // आपकी Google Sheet लिंक यहाँ जुड़ी है
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbzT-CP8U-QjwhZ9e3k1Lsm_lWnsWPWJ21ya3uRypv6NdG-gFqd6MKZrqgYoAMC8JDXx/exec";
+
     let members = JSON.parse(localStorage.getItem('cjp_members')) || [{name: "रामेश्वर दीक्षित", village: "नरसिंहपुर", phone: "9999999999"}];
     let comments = JSON.parse(localStorage.getItem('cjp_comments')) || [{name: "दीपक चौरसिया", text: "पार्टी का काम बहुत अच्छा चल रहा है!", likes: 0, dislikes: 0}];
     let userVotes = JSON.parse(localStorage.getItem('cjp_userVotes')) || {};
@@ -132,23 +134,17 @@
 
     function react(i, type) {
         let currentVote = userVotes[i];
-        
-        // अगर पहले से वोट दिया है, तो उसे हटाओ (Toggle)
         if (currentVote === type) {
             if (type === 'like') comments[i].likes--;
             else comments[i].dislikes--;
             userVotes[i] = null;
-        } 
-        // अगर वोट बदल रहे हैं
-        else {
+        } else {
             if (currentVote === 'like') comments[i].likes--;
             if (currentVote === 'dislike') comments[i].dislikes--;
-            
             if (type === 'like') comments[i].likes++;
             else comments[i].dislikes++;
             userVotes[i] = type;
         }
-        
         localStorage.setItem('cjp_comments', JSON.stringify(comments));
         localStorage.setItem('cjp_userVotes', JSON.stringify(userVotes));
         renderComments();
@@ -160,7 +156,6 @@
         members.forEach((m, i) => {
             container.innerHTML += `<div class='item-card'>${m.name} (${m.phone}) <button class='del-btn' onclick="deleteMember(${i})">हटाएँ</button></div>`;
         });
-        
         container.innerHTML += "<h4>कमेंट हटाएँ:</h4>";
         comments.forEach((c, i) => {
             container.innerHTML += `<div class='comment-card'>${c.name}: ${c.text} <button class='del-btn' onclick="deleteComment(${i})">हटाएँ</button></div>`;
@@ -176,7 +171,10 @@
         let village = document.getElementById("memberVillage").value.trim();
         let phone = document.getElementById("memberPhone").value.trim();
         if (name === "" || village === "" || phone === "") { alert("भैया! जानकारी भरिए!"); return; }
-        if (members.find(m => m.phone === phone)) { alert("❌ इस नंबर से पहले ही सदस्यता ली जा चुकी है!"); return; }
+        
+        // Google Sheet पर डेटा भेजने के लिए
+        fetch(SHEET_URL + "?action=addMember&name=" + encodeURIComponent(name) + "&village=" + encodeURIComponent(village) + "&phone=" + encodeURIComponent(phone));
+        
         members.push({name, village, phone});
         localStorage.setItem('cjp_members', JSON.stringify(members));
         renderMembers();
@@ -188,12 +186,12 @@
     function submitComment() {
         let cName = document.getElementById("commenterName").value.trim();
         let cText = document.getElementById("commentText").value.trim();
-        
-        // यह रहा आपका सुरक्षा चेक, नाम सदस्य लिस्ट में होना चाहिए
         let isMember = members.find(m => m.name === cName);
-        
         if (cName === "" || cText === "") { alert("भैया, सुझाव भरिए!"); return; }
         if (!isMember) { alert("❌ केवल पार्टी के सदस्य ही कमेंट कर सकते हैं। पहले सदस्यता लें!"); return; }
+        
+        // Google Sheet पर सुझाव भेजने के लिए
+        fetch(SHEET_URL + "?action=addComment&name=" + encodeURIComponent(cName) + "&text=" + encodeURIComponent(cText));
         
         comments.push({name: cName, text: cText, likes: 0, dislikes: 0});
         localStorage.setItem('cjp_comments', JSON.stringify(comments));
